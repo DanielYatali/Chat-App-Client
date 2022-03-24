@@ -74,7 +74,7 @@
 				<div class="flex flex-col message received">
 					<p class="flex text-gray-500">{message.sender_name}</p>
 					<p>{message.content}</p>
-					<p class="float-right">{message.content}</p>
+					<p class="float-right">{message.datetime}</p>
 				</div>
 			{/if}
 		{/each}
