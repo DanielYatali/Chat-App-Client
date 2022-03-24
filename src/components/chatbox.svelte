@@ -26,7 +26,6 @@
 	// const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
 	const socket = io('http://localhost:5000/');
 	let id;
-	let chat_box;
 	//Remember to implent this in an onLoad function
 	socket.on('connection', () => {
 		console.log(socket.id);
@@ -60,7 +59,7 @@
 
 <h1>Sender : {sender.username} Receiver: {receiver}</h1>
 <div class="container flex flex-col bg-red-500 p-10">
-	<div bind:this={chat_box} class="h-96 bg-orange-400 overflow-y-scroll">
+	<div class="h-96 bg-orange-400 overflow-y-scroll">
 		{#each messages as message}
 			{#if message.sender_name == sender.username}
 				<div class="flex flex-col message sent">

@@ -1,5 +1,6 @@
 <div class="grid place-items-center">
-	<h1>This is the home page</h1>
+	<h1>You are not logged in</h1>
+	<p>Please log in</p>
 
 	<form action="/login">
 		<input class="hover:cursor-pointer bg-red-400 p-2 rounded-lg" type="submit" value="Login" />
