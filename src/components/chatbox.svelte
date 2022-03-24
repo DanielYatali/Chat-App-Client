@@ -10,15 +10,18 @@
 		let data = {};
 		data['conversation_name'] = receiver;
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/conversation/messages', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					Authorization: 'JWT ' + sender.token,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			});
+			const rawResponse = await fetch(
+				'https://hpofficepaper-database-chatapp.herokuapp.com/conversation/messages',
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: 'JWT ' + sender.token,
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				}
+			);
 			messages = await rawResponse.json();
 			console.log(messages);
 		})();
