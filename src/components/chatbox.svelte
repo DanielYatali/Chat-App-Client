@@ -23,8 +23,8 @@
 			console.log(messages);
 		})();
 	});
-	// const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
-	const socket = io('http://localhost:5000/');
+	const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
+	// const socket = io('http://localhost:5000/');
 	let id;
 	//Remember to implent this in an onLoad function
 	socket.on('connection', () => {
