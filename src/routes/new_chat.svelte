@@ -1,66 +1,4 @@
-<script>
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte/internal';
-	import { io } from 'socket.io-client';
-	export let receiver;
-	export let sender;
-	let messages = [];
-	let message;
-	onMount(() => {
-		let data = {};
-		data['conversation_name'] = receiver;
-		(async () => {
-			const rawResponse = await fetch(
-				'https://hpofficepaper-database-chatapp.herokuapp.com/conversation/messages',
-				{
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						Authorization: 'JWT ' + sender.token,
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				}
-			);
-			messages = await rawResponse.json();
-			console.log(messages);
-		})();
-	});
-	const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
-	// const socket = io('http://localhost:5000/');
-	let id;
-	//Remember to implent this in an onLoad function
-	socket.on('connection', () => {
-		console.log(socket.id);
-	});
-	socket.on('connect', () => {
-		id = socket.id;
-		console.log(socket.id);
-		console.log(receiver);
-		socket.emit('join-room', receiver);
-		socket.on('receive-message', (msg) => {
-			messages = [...messages, msg];
-		});
-	});
-
-	const handleSubmit = () => {
-		let today = new Date();
-		// let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-		let time = today.getHours() + ':' + today.getMinutes();
-		// let dateTime = date+' '+time;
-		if (message != '')
-			socket.emit('send-message', {
-				conversation_name: receiver,
-				sender_name: sender.username,
-				content: message,
-				datetime: time,
-				token: sender.token
-			});
-		message = '';
-	};
-</script>
-
-<div class="flex-1 p:2 sm:p-6 flex flex-col h-screen">
+<!-- <div class="flex-1 p:2 sm:p-6 flex flex-col h-screen">
 	<div class="flex mx-4 sm:items-center justify-between py-3 border-b-2 border-gray-200">
 		<div class="relative flex items-center space-x-4">
 			<div class="relative">
@@ -148,30 +86,13 @@
 		<div class="chat-message">
 			{#each messages as message}
 				{#if message.sender_name == sender.username}
-					<div class="flex items-end justify-end">
-						<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-							<div class="px-4 py-2 rounded-full flex rounded-br-none blue-msg text-white">
-								<span class="pt-1 mr-3 break-words">{message.content}</span>
-								<span class="time pb-2">{message.datetime}</span>
-							</div>
-						</div>
-						<img
-							src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
-							alt="My profile"
-							class="w-10 h-10 rounded-full order-2"
-						/>
-					</div>
-				{:else}
 					<div class="flex items-end">
 						<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
 							<div>
-								<div class="px-4 py-2 rounded-full flex rounded-bl-none cream-msg text-gray-600">
-									<div class="flex flex-col">
-										<span class="mr-3">{message.sender_name}</span>
-										<span class="pt-1 mr-3">{message.content}</span>
-									</div>
-									<span class=" time pb-2">{message.datetime}</span>
-								</div>
+								<span
+									class="px-4 py-2 rounded-full inline-block rounded-bl-none bg-gray-300 text-gray-600"
+									>{message.content}</span
+								>
 							</div>
 						</div>
 						<img
@@ -180,10 +101,26 @@
 							class="w-10 h-10 rounded-full order-1"
 						/>
 					</div>
+				{:else}
+					<div class="flex items-end justify-end">
+						<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+							<div>
+								<span
+									class="px-4 py-2 rounded-full inline-block rounded-br-none bg-blue-600 text-white"
+									>{message.content}</span
+								>
+							</div>
+						</div>
+						<img
+							src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
+							alt="My profile"
+							class="w-10 h-10 rounded-full order-2"
+						/>
+					</div>
 				{/if}
-				<br class="line-break" />
 			{/each}
 		</div>
+		<div class="chat-message" />
 	</div>
 	<div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
 		<div class="relative flex">
@@ -259,8 +196,7 @@
 						/>
 					</svg>
 				</button>
-				<button
-					on:click={handleSubmit}
+				<button on:click={handleSubmit}
 					type="button"
 					class="inline-flex items-center justify-center rounded-full px-3 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
 				>
@@ -281,101 +217,11 @@
 	</div>
 </div>
 
-<!-- <h1>Sender : {sender.username} Receiver: {receiver}</h1>
-	<div class="container flex flex-col bg-red-500 p-10">
-		<div class="h-96 bg-orange-400 overflow-y-scroll">
-			{#each messages as message}
-			{#if message.sender_name == sender.username}
-			<div class="flex flex-col message sent">
-				<p class="flex text-gray-500">{message.sender_name}</p>
-				<p>{message.content}</p>
-				<p class="float-right">{message.datetime}</p>
-			</div>
-			{:else}
-			<div class="flex flex-col message received">
-				<p class="flex text-gray-500">{message.sender_name}</p>
-				<p>{message.content}</p>
-				<p class="float-right">{message.datetime}</p>
-			</div>
-			{/if}
-			{/each}
-		</div>
-		
-		<div class="relative text-gray-700">
-			<input
-			bind:value={message}
-			class="w-full h-10 pl-3 pr-8 text-base placeholder-gray-500 border rounded-lg focus:shadow-outline"
-			type="text"
-			placeholder="Enter Text"
-			/>
-			
-			<button
-			on:click={handleSubmit}
-			class="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-600 rounded-r-lg hover:bg-indigo-500 focus:bg-indigo-700"
-			>Submit</button
-			>
-		</div>
-	</div> -->
-<!-- 
-	<style>
-		
-		.message:after {
-			position: absolute;
-			content: '';
-			width: 0;
-			height: 0;
-			border-style: solid;
-		}
-		
-		.message.received {
-			background: #fff;
-			border-radius: 0px 5px 5px 5px;
-			float: left;
-		}
-		
-		.message.received .metadata {
-			padding: 0 0 0 16px;
-		}
-		
-		.message.received:after {
-			border-width: 0px 10px 10px 0;
-			border-color: transparent #fff transparent transparent;
-			top: 0;
-			left: -10px;
-		}
-		
-		.message.sent {
-			background: #e1ffc7;
-			border-radius: 5px 0px 5px 5px;
-			float: right;
-		}
-		
-		.message.sent:after {
-			border-width: 0px 0 10px 10px;
-			border-color: transparent transparent transparent #e1ffc7;
-			top: 0;
-		right: -10px;
-	}
-</style> -->
-
 <!-- <script>
 	const el = document.getElementById('messages');
 	el.scrollTop = el.scrollHeight;
 </script> -->
 <style>
-	.message {
-		color: #000;
-		clear: both;
-		line-height: 18px;
-		font-size: 15px;
-		padding: 8px;
-		position: relative;
-		margin: 8px 0;
-		width: 25%;
-		max-width: 85%;
-		word-wrap: break-word;
-		/* z-index: -1; */
-	}
 	.scrollbar-w-2::-webkit-scrollbar {
 		width: 0.25rem;
 		height: 0.25rem;
@@ -396,13 +242,4 @@
 	.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
 		border-radius: 0.25rem;
 	}
-	.line-break {
-		display: block;
-		content: '';
-		margin-top: 0.7rem;
-	}
-
-	.time {
-		font-size: 0.6rem;
-	}
-</style>
+</style> -->

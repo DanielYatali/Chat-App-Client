@@ -24,3 +24,10 @@
 .action-btn {
 	@apply bg-gray-400 rounded-full hover:bg-slate-600 p-1 w-28 h-10;
 }
+
+.blue-msg {
+	background-color: #446a97;
+}
+.cream-msg {
+	background-color: #dce7cc;
+}

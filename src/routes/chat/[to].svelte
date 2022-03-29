@@ -27,7 +27,7 @@
 	});
 </script>
 
-<h1>Welcome {sender.username}</h1>
+<!-- <h1>Welcome {sender.username}</h1> -->
 <div>
 	<ChatBox {receiver} {sender} />
 </div>
