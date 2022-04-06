@@ -151,7 +151,7 @@
 					<div class="flex items-end justify-end">
 						<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
 							<div class="px-4 py-2 rounded-full flex rounded-br-none blue-msg text-white">
-								<span class="pt-1 mr-3 break-words">{message.content}</span>
+								<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
 								<span class="time pb-2">{message.datetime}</span>
 							</div>
 						</div>
@@ -168,7 +168,7 @@
 								<div class="px-4 py-2 rounded-full flex rounded-bl-none cream-msg text-gray-600">
 									<div class="flex flex-col">
 										<span class="mr-3">{message.sender_name}</span>
-										<span class="pt-1 mr-3">{message.content}</span>
+										<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
 									</div>
 									<span class=" time pb-2">{message.datetime}</span>
 								</div>
@@ -404,5 +404,11 @@
 
 	.time {
 		font-size: 0.6rem;
+	}
+
+	pre {
+		word-wrap: break-word; /* IE 5.5-7 */
+		white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+		white-space: pre-wrap; /* current browsers */
 	}
 </style>
