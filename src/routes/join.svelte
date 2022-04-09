@@ -34,3 +34,5 @@
 <br />
 <br />
 <h1>Selected room is : {selected}</h1>
+
+<a class="text-4xl hover:text-5xl text-red-500" href="/questions">Go to Questions</a>
