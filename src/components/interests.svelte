@@ -58,31 +58,31 @@
 							<div class="mt-4 space-y-4">
 								<div class="flex items-center">
 									<input
-										on:click={() => (stayingIn = 'yes')}
-										checked={stayingIn == 'yes'}
-										value="yes"
+										on:click={() => (stayingIn = 'going out')}
+										checked={stayingIn == 'going out'}
+										value="go out"
 										id="staying-in"
 										name="staying-in"
 										type="radio"
 										class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
 									/>
 									<label for="staying-in" class="ml-3 block text-sm font-medium text-gray-700"
-										>Yes
+										>Go out
 									</label>
 								</div>
 
 								<div class="flex items-center">
 									<input
-										on:click={() => (stayingIn = 'no')}
-										checked={stayingIn == 'no'}
-										value="no"
+										on:click={() => (stayingIn = 'stay in')}
+										checked={stayingIn == 'stay in'}
+										value="stay home"
 										id="staying-in"
 										name="staying-in"
 										type="radio"
 										class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
 									/>
 									<label for="staying-in" class="ml-3 block text-sm font-medium text-gray-700"
-										>No
+										>Stay in
 									</label>
 								</div>
 							</div>
