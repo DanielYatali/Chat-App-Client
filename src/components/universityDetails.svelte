@@ -1,4 +1,8 @@
 <script>
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+
+	import UniversityDetails from '../stores/universityDetailsStore';
 	const faculties = [
 		'Engineering',
 		'Food & Agriculture',
@@ -9,6 +13,23 @@
 		'Social Sciences'
 	];
 	const majors = ['Computer Science', 'Information Technology', 'Mathematics'];
+
+	let univerityName, choosen_faculty, major;
+
+	onMount(() => {
+		let univerityDetails = get(UniversityDetails);
+		univerityName = univerityDetails.universityName;
+		choosen_faculty = univerityDetails.faculty;
+		major = univerityDetails.major;
+	});
+	const saveInfo = () => {
+		UniversityDetails.set({
+			universityName: univerityName,
+			faculty: choosen_faculty,
+			major: major
+		});
+		// console.log({ choosen_faculty }, { univerityName }, { major });
+	};
 </script>
 
 <div class="sm:mt-0">
@@ -34,6 +55,7 @@
 									>University name</label
 								>
 								<input
+									bind:value={univerityName}
 									type="text"
 									name="first-name"
 									id="first-name"
@@ -45,6 +67,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
@@ -70,15 +93,15 @@
 								{#each faculties as faculty}
 									<div class="flex items-center">
 										<input
-											id="push-everything"
-											name="push-notifications"
+											on:click={() => (choosen_faculty = faculty)}
+											checked={choosen_faculty == faculty}
+											value={faculty}
+											id="faculty"
+											name="faculty"
 											type="radio"
 											class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
 										/>
-										<label
-											for="push-everything"
-											class="ml-3 block text-sm font-medium text-gray-700"
-										>
+										<label for="faculty" class="ml-3 block text-sm font-medium text-gray-700">
 											{faculty}
 										</label>
 									</div>
@@ -88,6 +111,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
@@ -114,6 +138,7 @@
 										>Major in:</label
 									>
 									<select
+										bind:value={major}
 										id="Major"
 										name="Major"
 										autocomplete="Major-name"
@@ -129,6 +154,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button

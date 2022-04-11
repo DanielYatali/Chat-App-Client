@@ -1,3 +1,30 @@
+<script>
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+
+	import PersonalDetails from '../stores/personalDetailsStore';
+	let firstName, lastName, email, country, city, about;
+	onMount(() => {
+		let userInfo = get(PersonalDetails);
+		firstName = userInfo.firstName;
+		lastName = userInfo.lastName;
+		email = userInfo.email;
+		country = userInfo.country;
+		city = userInfo.city;
+		about = userInfo.about;
+	});
+	const saveInfo = () => {
+		PersonalDetails.set({
+			firstName: firstName,
+			lastName: lastName,
+			email: email,
+			country: country,
+			city: city,
+			about: about
+		});
+	};
+</script>
+
 <div class="w-full h-full">
 	<div>
 		<div class="mt-0">
@@ -20,6 +47,7 @@
 											>First name</label
 										>
 										<input
+											bind:value={firstName}
 											type="text"
 											name="first-name"
 											id="first-name"
@@ -33,6 +61,7 @@
 											>Last name</label
 										>
 										<input
+											bind:value={lastName}
 											type="text"
 											name="last-name"
 											id="last-name"
@@ -46,6 +75,7 @@
 											>Email address</label
 										>
 										<input
+											bind:value={email}
 											type="text"
 											name="email-address"
 											id="email-address"
@@ -59,6 +89,7 @@
 											>Country</label
 										>
 										<select
+											bind:value={country}
 											id="country"
 											name="country"
 											autocomplete="country-name"
@@ -73,6 +104,7 @@
 									<div class="col-span-6 sm:col-span-6 lg:col-span-2">
 										<label for="city" class="block text-sm font-medium text-gray-700">City</label>
 										<input
+											bind:value={city}
 											type="text"
 											name="city"
 											id="city"
@@ -84,6 +116,7 @@
 							</div>
 							<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 								<button
+									on:click|preventDefault={saveInfo}
 									type="submit"
 									class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 									>Save</button
@@ -118,6 +151,7 @@
 								<label for="about" class="block text-sm font-medium text-gray-700"> About </label>
 								<div class="mt-1">
 									<textarea
+										bind:value={about}
 										id="about"
 										name="about"
 										rows="3"
@@ -187,6 +221,7 @@
 						</div>
 						<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 							<button
+								on:click|preventDefault={saveInfo}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>Save</button

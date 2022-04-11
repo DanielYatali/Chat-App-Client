@@ -1,4 +1,8 @@
 <script>
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+
+	import InterestDetails from '../stores/interestStore';
 	const sports = [
 		'Football',
 		'Cricket',
@@ -9,6 +13,24 @@
 	];
 	const movies = ['Horror', 'Action', 'Romance', 'Comdey', 'Animation'];
 	const musics = ['Dancehall', 'Soca', 'Pop', 'Clasical', 'I like everything', 'I hate music'];
+	let stayingIn, choosenSport, choosenMovie, choosenMusic;
+	onMount(() => {
+		let interestDetails = get(InterestDetails);
+		stayingIn = interestDetails.stayingIn;
+		choosenSport = interestDetails.sport;
+		choosenMovie = interestDetails.movie;
+		choosenMusic = interestDetails.music;
+	});
+
+	const saveInfo = () => {
+		InterestDetails.set({
+			stayingIn: stayingIn,
+			sport: choosenSport,
+			movie: choosenMovie,
+			music: choosenMusic
+		});
+		console.log({ stayingIn }, { choosenSport }, { choosenMovie }, { choosenMusic });
+	};
 </script>
 
 <div class="sm:mt-0">
@@ -26,12 +48,15 @@
 						<fieldset>
 							<div>
 								<legend class="text-base font-medium text-gray-900"
-									>Do you prefer out or staying in?</legend
+									>Do you prefer going out or staying in?</legend
 								>
 							</div>
 							<div class="mt-4 space-y-4">
 								<div class="flex items-center">
 									<input
+										on:click={() => (stayingIn = 'yes')}
+										checked={stayingIn == 'yes'}
+										value="yes"
 										id="staying-in"
 										name="staying-in"
 										type="radio"
@@ -44,6 +69,9 @@
 
 								<div class="flex items-center">
 									<input
+										on:click={() => (stayingIn = 'no')}
+										checked={stayingIn == 'no'}
+										value="no"
 										id="staying-in"
 										name="staying-in"
 										type="radio"
@@ -58,6 +86,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
@@ -82,6 +111,9 @@
 								{#each sports as sport}
 									<div class="flex items-center">
 										<input
+											on:click={() => (choosenSport = sport)}
+											checked={choosenSport == sport}
+											value={sport}
 											id="sport"
 											name="sport"
 											type="radio"
@@ -97,6 +129,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
@@ -121,6 +154,9 @@
 								{#each movies as movie}
 									<div class="flex items-center">
 										<input
+											on:click={() => (choosenMovie = movie)}
+											checked={choosenMovie == movie}
+											value={movie}
 											id="movie"
 											name="movie"
 											type="radio"
@@ -136,6 +172,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
@@ -160,6 +197,9 @@
 								{#each musics as music}
 									<div class="flex items-center">
 										<input
+											on:click={() => (choosenMusic = music)}
+											value={music}
+											checked={choosenMusic == music}
 											id="music"
 											name="music"
 											type="radio"
@@ -175,6 +215,7 @@
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
 						<button
+							on:click|preventDefault={saveInfo}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
