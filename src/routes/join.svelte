@@ -6,6 +6,11 @@
 	import { get } from 'svelte/store';
 	import currentUser from '../stores/userDataStore';
 
+	import PersonalDetails from '../stores/personalDetailsStore';
+	import UniversityDetails from '../stores/universityDetailsStore';
+	import InterestDetails from '../stores/interestStore';
+	import SocialDetails from '../stores/socialStore';
+
 	let User = {};
 	onMount(() => {
 		User = get(currentUser);
@@ -18,6 +23,12 @@
 	let selected = 'Room-1';
 	const handleSelect = () => {
 		goto(`/chat/${selected}`);
+	};
+	let userDetails = {
+		personalDetails: get(PersonalDetails),
+		universityDetails: get(UniversityDetails),
+		interestDetails: get(InterestDetails),
+		socialDetails: get(SocialDetails)
 	};
 </script>
 
@@ -34,5 +45,7 @@
 <br />
 <br />
 <h1>Selected room is : {selected}</h1>
+<!-- <h1>{userDetails}</h1> -->
+<h1>{JSON.stringify(userDetails, null, '\t')}</h1>
 
 <a class="text-4xl hover:text-5xl text-red-500" href="/questions">Go to Questions</a>
