@@ -6,7 +6,10 @@
 	export let sender;
 	let messages = [];
 	let message;
+	let chatScroll;
+	let y;
 	onMount(() => {
+		chatScroll.scrollTop = chatScroll.scrollHeight;
 		let data = {};
 		data['conversation_name'] = receiver;
 		(async () => {
@@ -60,7 +63,7 @@
 	};
 </script>
 
-<div class="flex-1 p:2 sm:p-6 flex flex-col h-screen">
+<div style="height: 90vh;" class="flex-1 p:2 sm:p-2 flex flex-col w-full h-full">
 	<div class="flex mx-4 sm:items-center justify-between py-3 border-b-2 border-gray-200">
 		<div class="relative flex items-center space-x-4">
 			<div class="relative">
@@ -142,6 +145,7 @@
 	</div>
 	<!-- chat box -->
 	<div
+		bind:this={chatScroll}
 		id="messages"
 		class="h-screen flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
 	>
@@ -185,7 +189,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+	<div class="sticky bottom-0 border-gray-200 p-2 mb-0">
 		<div class="relative flex">
 			<span class="absolute inset-y-0 flex items-center">
 				<button
@@ -212,7 +216,7 @@
 				bind:value={message}
 				type="text"
 				placeholder="Write your message!"
-				class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-l-full py-3"
+				class="border-none w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-l-full py-3"
 			/>
 			<div class="relative right-0 items-center inset-y-0 sm:flex bg-gray-200 rounded-r-full">
 				<button
