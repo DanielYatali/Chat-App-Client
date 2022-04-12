@@ -3,6 +3,7 @@
 
 	import { form, field } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
+	import { get } from 'svelte/store';
 	import currentUser from '../stores/userDataStore';
 	//Creating form fields
 	const name = field('name', '', [required()], {
@@ -13,6 +14,28 @@
 	});
 
 	const myForm = form(name, password);
+
+	const get_id = async () => {
+		let user = get(currentUser);
+		const rawResponse = await fetch('http://localhost:8080/user/' + user.username, {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				Authorization: 'JWT ' + user.token,
+				'Content-Type': 'application/json'
+			}
+		});
+		const id = await rawResponse.json();
+		console.log(id);
+		currentUser.set({
+			id: id,
+			username: user.username,
+			token: user.token,
+			loggedIn: user.loggedIn
+		});
+		console.log('token' + user.token);
+	};
+
 	let loginResponse = {};
 	let error = false;
 	//Validates the user input when button is clicked
@@ -24,7 +47,7 @@
 			password: $password.value
 		};
 		(async () => {
-			const rawResponse = await fetch('https://hpofficepaper-database-chatapp.herokuapp.com/auth', {
+			const rawResponse = await fetch('http://localhost:8080/auth', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -37,10 +60,13 @@
 			console.log(loginResponse);
 			if (loginResponse.hasOwnProperty('access_token')) {
 				currentUser.set({
+					id: '',
 					username: user.username,
 					token: loginResponse.access_token,
 					loggedIn: true
 				});
+				let userId = get_id();
+				console.log(userId);
 				goto('/join');
 			} else {
 				error = true;

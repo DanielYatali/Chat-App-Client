@@ -14,6 +14,7 @@
 	CurrentQuestion.subscribe((value) => {
 		currentQuestions = value;
 	});
+
 	let userInfo;
 </script>
 

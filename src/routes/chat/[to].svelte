@@ -5,6 +5,7 @@
 	export async function load({ url, params }) {
 		const receiver = params.to;
 		const sender = get(currentUser);
+		console.log(sender.token);
 
 		return {
 			props: {

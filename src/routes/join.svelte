@@ -24,15 +24,43 @@
 	const handleSelect = () => {
 		goto(`/chat/${selected}`);
 	};
+	let personalDetails = get(PersonalDetails);
+	let universityDetails = get(UniversityDetails);
+	let interestDetails = get(InterestDetails);
+	let socialDetails = get(SocialDetails);
+
 	let userDetails = {
-		personalDetails: get(PersonalDetails),
-		universityDetails: get(UniversityDetails),
-		interestDetails: get(InterestDetails),
-		socialDetails: get(SocialDetails)
+		user_id: User.id,
+		first_name: personalDetails.firstName,
+		last_name: personalDetails.lastName,
+		email: personalDetails.email,
+		country: personalDetails.country,
+		city: personalDetails.city,
+		about: personalDetails.about,
+		university: universityDetails.universityName,
+		faculty: universityDetails.faculty,
+		major: universityDetails.major,
+		movie: interestDetails.movie,
+		music: interestDetails.music,
+		photo: 'link',
+		staying_in: interestDetails.stayingIn,
+		sport: interestDetails.sport,
+		bot: 'human',
+		other_info: {
+			socials: {
+				instagram: socialDetails.instagram,
+				twitter: socialDetails.twitter,
+				discord: socialDetails.discord,
+				snapchat: socialDetails.snapChat,
+				whatsapp: socialDetails.whatsapp,
+				steam: socialDetails.steam,
+				tiktok: socialDetails.tikTok
+			}
+		}
 	};
 </script>
 
-<h1>Welcome {User.username}</h1>
+<h1>Welcome {User.id}</h1>
 <h2>Tell us about yourself {User.username}</h2>
 <select bind:value={selected} on:change={handleSelect}>
 	{#each Rooms as room}
@@ -49,3 +77,4 @@
 <h1>{JSON.stringify(userDetails, null, '\t')}</h1>
 
 <a class="text-4xl hover:text-5xl text-red-500" href="/questions">Go to Questions</a>
+<a class="text-4xl hover:text-5xl text-red-500" href="/match">Match</a>

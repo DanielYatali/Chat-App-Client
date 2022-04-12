@@ -4,6 +4,11 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
+	import currentUser from '../stores/userDataStore.js';
+	import PersonalDetails from '../stores/personalDetailsStore';
+	import UniversityDetails from '../stores/universityDetailsStore';
+	import InterestDetails from '../stores/interestStore';
+
 	import SocialDetails from '../stores/socialStore';
 	const socials = ['Instagram', 'Tik Tok', 'Snapchat', 'Twitter', 'Steam', 'Discord', 'Whatsapp'];
 	let currentSocials = {
@@ -37,12 +42,56 @@
 		});
 		console.log(currentSocials);
 	};
-	const next = () => {
-		saveInfo();
-		goto('/join');
-	};
-	const skip = () => {
-		goto('/join');
+
+	const saveAllInfo = (route) => {
+		const user = get(currentUser);
+		let personalDetails = get(PersonalDetails);
+		let universityDetails = get(UniversityDetails);
+		let interestDetails = get(InterestDetails);
+		let socialDetails = get(SocialDetails);
+
+		let userDetails = {
+			user_id: user.id,
+			first_name: personalDetails.firstName,
+			last_name: personalDetails.lastName,
+			email: personalDetails.email,
+			country: personalDetails.country,
+			city: personalDetails.city,
+			about: personalDetails.about,
+			university: universityDetails.universityName,
+			faculty: universityDetails.faculty,
+			major: universityDetails.major,
+			movie: interestDetails.movie,
+			music: interestDetails.music,
+			photo: 'link',
+			staying_in: interestDetails.stayingIn,
+			sport: interestDetails.sport,
+			bot: 'human',
+			other_info: {
+				socials: {
+					instagram: socialDetails.instagram,
+					twitter: socialDetails.twitter,
+					discord: socialDetails.discord,
+					snapchat: socialDetails.snapChat,
+					whatsapp: socialDetails.whatsapp,
+					steam: socialDetails.steam,
+					tiktok: socialDetails.tikTok
+				}
+			}
+		};
+		(async () => {
+			const rawResponse = await fetch('http://localhost:8080/user/' + route, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'JWT ' + user.token,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(userDetails)
+			});
+			let reponse = await rawResponse.json();
+			console.log(reponse);
+		})();
 	};
 </script>
 
@@ -94,13 +143,13 @@
 								>Save</button
 							>
 							<button
-								on:click|preventDefault={skip}
+								on:click|preventDefault={() => saveAllInfo('update_info')}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								>Skip</button
+								>Update</button
 							>
 							<button
-								on:click|preventDefault={next}
+								on:click|preventDefault={() => saveAllInfo('create_info')}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>Finish</button
