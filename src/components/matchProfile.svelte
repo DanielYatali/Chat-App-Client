@@ -1,8 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
-
 	import SocialIcon from '../components/socialIcon.svelte';
+	import CurrentChat from '../stores/currentChatStore';
 	export let profile;
+	export let currentUser;
 	const socialIcons = [
 		{
 			name: 'Facebook',
@@ -32,7 +33,31 @@
 	];
 
 	const message = () => {
-		goto('/chat/' + profile.username);
+		(async () => {
+			const rawResponse = await fetch('http://localhost:8080/conversation/' + profile.user_id, {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'JWT ' + currentUser.token,
+					'Content-Type': 'application/json'
+				}
+			});
+			try {
+				let conversation = await rawResponse.json();
+				CurrentChat.set({
+					conversation_id: conversation.conversation_id,
+					conversation_name: conversation.conversation_name,
+					private: conversation.private,
+					receiver_id: profile.user_id,
+					receiver_username: profile.username,
+					bot: conversation.bot
+				});
+				console.log(conversation);
+			} catch (error) {
+				console.error(error);
+			}
+		})();
+		goto('/chat');
 	};
 </script>
 

@@ -40,6 +40,7 @@
 
 	onMount(async () => {
 		const user = get(currentUser);
+		//Get user matches
 		const rawResponse = await fetch('http://localhost:8080/' + user.id + '/match', {
 			method: 'GET',
 			headers: {
@@ -48,17 +49,34 @@
 				'Content-Type': 'application/json'
 			}
 		});
-		profiles = await rawResponse.json();
+		profiles = await rawResponse.json(); //get all matches
 		numProfiles = profiles.length;
 		console.log(profiles);
 		console.log(JSON.stringify(profiles[0].first_name));
 		console.log(JSON.stringify(numProfiles));
+		let user_ids = [];
+		for (let i = 0; i < numProfiles; i++) {
+			user_ids[i] = { id: profiles[i].user_id };
+		}
+		//Create a chat with each match
+		const response = await fetch('http://localhost:8080/conversation/create/matches', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				Authorization: 'JWT ' + user.token,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(user_ids)
+		});
+		let data = await response.json();
+		console.log(data);
 	});
 
 	let currentProfile = 0;
 	let disableLeftButton = 'none';
 	let disableRightButton;
 
+	//Navigates to the next matched profile
 	const next = () => {
 		if (currentProfile < numProfiles - 1) {
 			currentProfile++;
@@ -72,6 +90,7 @@
 			return;
 		}
 	};
+	//Navigates to the previous matched profile
 	const previous = () => {
 		if (currentProfile > 0) {
 			currentProfile--;
@@ -141,7 +160,7 @@
 			 C255,161.018,253.42,157.202,250.606,154.389z"
 		/>
 	</svg>
-	<MatchProfile profile={profiles[currentProfile]} />
+	<MatchProfile profile={profiles[currentProfile]} {currentUser} />
 	<!-- Pin to top right corner -->
 	<!-- <div class="absolute top-0 right-0 h-12 w-18 p-4">
 			 <button class="js-change-theme focus:outline-none">🌙</button>

@@ -1,5 +1,13 @@
 <script>
 	import ChatList from './chatList.svelte';
+	export let chats = [];
+	// chats = [
+	// 	{
+	// 		conversation_id: 0,
+	// 		conversation_name: 'no chats',
+	// 		private: false
+	// 	}
+	// ];
 	let openSideBar = 'flex';
 	let closeSideBar = 'none';
 	let sideBarMove = 'translateX(-288px)';
@@ -14,23 +22,23 @@
 			sideBarMove = 'translateX(-288px)';
 		}
 	}
-	const chatList = [
-		{
-			name: 'Jessica Koel',
-			lastMessage: { time: '10:26', content: 'Hey Joel, I here to help you out please tell me' },
-			photo: 'https://i.imgur.com/eMaYwXn.jpg'
-		},
-		{
-			name: 'Komeial Bolger',
-			lastMessage: { time: '12:26', content: 'I will send you all the documents soon' },
-			photo: 'https://i.imgur.com/uIgDDDd.jpg'
-		},
-		{
-			name: 'Caroline Nexon',
-			lastMessage: { time: '9:26', content: 'We need to start a new research center' },
-			photo: 'https://i.imgur.com/aq39RMA.jpg'
-		}
-	];
+	// const chatList = [
+	// 	{
+	// 		name: 'Jessica Koel',
+	// 		lastMessage: { time: '10:26', content: 'Hey Joel, I here to help you out please tell me' },
+	// 		photo: 'https://i.imgur.com/eMaYwXn.jpg'
+	// 	},
+	// 	{
+	// 		name: 'Komeial Bolger',
+	// 		lastMessage: { time: '12:26', content: 'I will send you all the documents soon' },
+	// 		photo: 'https://i.imgur.com/uIgDDDd.jpg'
+	// 	},
+	// 	{
+	// 		name: 'Caroline Nexon',
+	// 		lastMessage: { time: '9:26', content: 'We need to start a new research center' },
+	// 		photo: 'https://i.imgur.com/aq39RMA.jpg'
+	// 	}
+	// ];
 </script>
 
 <div
@@ -51,7 +59,7 @@
 						/> <i class="fa fa-search absolute right-3 top-4 text-gray-300" />
 					</div>
 					<ul>
-						{#each chatList as chat}
+						{#each chats as chat}
 							<ChatList {chat} />
 						{/each}
 					</ul>
@@ -103,7 +111,7 @@
 						/> <i class="fa fa-search absolute right-3 top-4 text-gray-300" />
 					</div>
 					<ul>
-						{#each chatList as chat}
+						{#each chats as chat}
 							<ChatList {chat} />
 						{/each}
 					</ul>

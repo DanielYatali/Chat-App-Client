@@ -5,6 +5,7 @@
 
 	import { get } from 'svelte/store';
 	import currentUser from '../stores/userDataStore';
+	import currentChat from '../stores/currentChatStore';
 
 	import PersonalDetails from '../stores/personalDetailsStore';
 	import UniversityDetails from '../stores/universityDetailsStore';
@@ -19,10 +20,18 @@
 		// 	goto('/');
 		// }
 	});
-	const Rooms = ['Room-1', 'Room-2', 'Room-3', 'Room-4'];
-	let selected = 'Room-1';
+	const Rooms = [0, 1, 2, 3, 4];
+	let selected = 1;
 	const handleSelect = () => {
-		goto(`/chat/${selected}`);
+		currentChat.set({
+			conversation_id: selected,
+			conversation_name: '',
+			private: false,
+			receiver_id: '',
+			receiver_username: '',
+			bot: ''
+		});
+		goto('/chat/');
 	};
 	let personalDetails = get(PersonalDetails);
 	let universityDetails = get(UniversityDetails);
