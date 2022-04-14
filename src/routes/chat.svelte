@@ -22,9 +22,11 @@
 	import CurrentChat from '../stores/currentChatStore';
 	import { get } from 'svelte/store';
 	import { endpoints } from '$lib/endpoints.js';
-
+	import ChatMessages from '../stores/chatMessages';
+	import { socket } from '$lib/socket';
 	let sender = {};
 	let currentChat;
+	let chatConversationNames = [];
 	CurrentChat.subscribe((value) => {
 		currentChat = value;
 	});
@@ -32,7 +34,7 @@
 	onMount(() => {
 		sender = get(currentUser);
 		(async () => {
-			const rawResponse = await fetch(endpoints.database + '/user/conversations/user_info', {
+			const rawResponse = await fetch(endpoints.database + 'user/conversations/user_info', {
 				method: 'GET',
 				headers: {
 					Accept: 'application/json',
@@ -43,7 +45,17 @@
 			try {
 				let reponse = await rawResponse.json();
 				chats = reponse;
-				console.log(reponse);
+				let currentChatMessages = {};
+				if (chats != []) {
+					chats.forEach((chat) => {
+						currentChatMessages[chat.conversation_name] = [];
+						chatConversationNames = [...chatConversationNames, chat.conversation_name];
+					});
+					ChatMessages.set(currentChatMessages);
+				}
+				socket.emit('join-room', chatConversationNames);
+				console.log(chatConversationNames);
+				// console.log(reponse);
 			} catch (error) {
 				console.error(error);
 			}
@@ -65,7 +77,12 @@
 			<ChatSideBar {chats} />
 		</div>
 		<div class="mt-0 sm:mt-4 sm:ml-72 md:ml-80 container mx-auto md:w-4/5 w-11/12 px-1">
-			<ChatBox {currentChat} {sender} />
+			<ChatBox
+				{currentChat}
+				{sender}
+				receiver={currentChat.conversation_name}
+				chats={chatConversationNames}
+			/>
 		</div>
 	</div>
 </div>

@@ -1,64 +1,59 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
-	import { io } from 'socket.io-client';
+	// import { io } from 'socket.io-client';
+	import { socket } from '$lib/socket';
 	import CurrentChat from '../stores/currentChatStore';
 	import Messages from '../stores/messagesStore';
 	import { get } from 'svelte/store';
+	import ChatMessages from '../stores/chatMessages';
+	import UnReadChatMessages from '../stores/unReadChatMessages';
 	import { endpoints } from '$lib/endpoints';
 	export let currentChat = {};
 	export let sender = {};
-	let receiver = '';
-	let messages = [];
+	export let receiver = '';
+	export let chats = [];
 	let message;
 	let chatScroll;
 	let y;
-	Messages.subscribe((value) => {
-		messages = value;
+	let allChatMessages = {};
+	ChatMessages.subscribe((value) => {
+		allChatMessages = value;
+		// console.log(JSON.stringify(value));
 	});
-	onMount(() => {
-		// currentChat = get(CurrentChat);
-		// chatScroll.scrollTop = chatScroll.scrollHeight;
-		receiver = currentChat.conversation_name;
-		if (currentChat.conversation_id != -1) {
-			(async () => {
-				const rawResponse = await fetch(
-					endpoints.database + currentChat.conversation_id + '/conversation/messages',
-					{
-						method: 'GET',
-						headers: {
-							Accept: 'application/json',
-							Authorization: 'JWT ' + sender.token,
-							'Content-Type': 'application/json'
-						}
-					}
-				);
-				messages = await rawResponse.json();
-				console.log(messages);
-			})();
-		}
-	});
-	// const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
-	const socket = io(endpoints.socket);
+
+	// console.log(JSON.stringify(get(ChatMessages)));
 	let id;
 	//Remember to implent this in an onLoad function
 	socket.on('connection', () => {
-		console.log(socket.id);
+		console.log('Inital id' + socket.id);
 	});
+	//On reconnect join all rooms
 	socket.on('connect', () => {
-		id = socket.id;
-		console.log(socket.id);
+		console.log('Connect Id' + socket.id);
 		console.log(receiver);
-		socket.emit('join-room', receiver);
-		socket.on('receive-message', (msg) => {
-			messages = [...messages, msg];
-			Messages.set(messages);
-		});
+		socket.emit('join-room', chats);
+	});
+	socket.on('receive-message', (msg) => {
+		console.log('this' + msg);
+		if (receiver != msg.conversation_name) {
+			let unReadMessages = get(UnReadChatMessages);
+			if (unReadMessages.hasOwnProperty(msg.conversation_name)) {
+				unReadMessages[msg.conversation_name]++;
+			} else {
+				unReadMessages[msg.conversation_name] = 1;
+			}
+			console.log(unReadMessages);
+			UnReadChatMessages.set(unReadMessages);
+		}
+		allChatMessages[msg.conversation_name] = [...allChatMessages[msg.conversation_name], msg];
+		ChatMessages.set(allChatMessages);
 	});
 
 	const handleSubmit = () => {
 		let today = new Date();
 		let time = today.getHours() + ':' + today.getMinutes();
+		console.log(receiver);
 		if (message != '')
 			socket.emit('send-message', {
 				conversation_name: receiver,
@@ -172,7 +167,7 @@
 			class="h-screen flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
 		>
 			<div class="chat-message">
-				{#each messages as message}
+				{#each allChatMessages[receiver] as message}
 					{#if message.sender_name == sender.username}
 						<div class="flex items-end justify-end">
 							<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">

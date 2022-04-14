@@ -5,13 +5,51 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { endpoints } from '$lib/endpoints';
-
-	let user;
-	onMount(() => {
-		user = get(CurrentUser);
-	});
+	import ChatMessages from '../stores/chatMessages';
+	import UnReadChatMessages from '../stores/unReadChatMessages';
 	export let chat;
+	let user = {};
+	let allChatMessages = {};
+	let lastMessage = { content: '' };
+	let unReadChatMessages = {};
+	UnReadChatMessages.subscribe((value) => {
+		unReadChatMessages = value;
+	});
+	ChatMessages.subscribe((value) => {
+		let messages = value[chat.conversation_name];
+		lastMessage = messages[messages.length - 1];
+		allChatMessages = value;
+	});
+
+	onMount(() => {
+		lastMessage = { content: '' };
+		user = get(CurrentUser);
+		(async () => {
+			const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'JWT ' + user.token,
+					'Content-Type': 'application/json'
+				}
+			});
+			let messages = await rawResponse.json();
+			if (messages != []) {
+				lastMessage = messages[messages.length - 1];
+			}
+			allChatMessages = get(ChatMessages);
+			allChatMessages[chat.conversation_name] = messages;
+			ChatMessages.set(allChatMessages);
+
+			// console.log(messages);
+		})();
+	});
 	const showChat = () => {
+		unReadChatMessages = get(UnReadChatMessages);
+		if (unReadChatMessages.hasOwnProperty(chat.conversation_name)) {
+			delete unReadChatMessages[chat.conversation_name];
+			UnReadChatMessages.set(unReadChatMessages);
+		}
 		if (chat.private) {
 			CurrentChat.set({
 				conversation_id: chat.conversation_id,
@@ -31,20 +69,26 @@
 				bot: ''
 			});
 		}
+		// Messages.set(allChatMessages[chat.conversation_name]);
 		//Fix this
-		(async () => {
-			const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: 'JWT ' + user.token,
-					'Content-Type': 'application/json'
-				}
-			});
-			let messages = await rawResponse.json();
-			Messages.set(messages);
-			console.log(messages);
-		})();
+		// (async () => {
+		// 	const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
+		// 		method: 'GET',
+		// 		headers: {
+		// 			Accept: 'application/json',
+		// 			Authorization: 'JWT ' + user.token,
+		// 			'Content-Type': 'application/json'
+		// 		}
+		// 	});
+		// 	let messages = await rawResponse.json();
+		// 	lastMessage = messages[0];
+		// 	Messages.set(messages);
+		// 	allChatMessages = get(ChatMessages);
+		// 	allChatMessages[chat.conversation_name] = messages;
+		// 	ChatMessages.set(allChatMessages);
+
+		// 	console.log(messages);
+		// })();
 	};
 </script>
 
@@ -53,7 +97,14 @@
 	class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition"
 >
 	<div class="flex ml-2">
-		<img src={chat.photo} width="40" height="40" class="rounded-full" alt="profile" />
+		<!-- <img src={chat.photo} width="40" height="40" class="rounded-full" alt="profile" /> -->
+		<img
+			src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
+			width="40"
+			height="40"
+			class="rounded-full"
+			alt="profile"
+		/>
 		<div class="flex flex-col ml-2">
 			{#if chat.private}
 				<span class="font-medium text-black">{chat.username}</span>
@@ -61,7 +112,9 @@
 				<span class="font-medium text-black">{chat.conversation_name}</span>
 			{/if}
 			<span class="text-sm text-gray-400 truncate w-32">
-				last msg
+				{#if lastMessage}
+					{lastMessage['content']}
+				{/if}
 				<!-- {chat.lastMessage.content} -->
 			</span>
 		</div>
@@ -71,6 +124,13 @@
 			10:10
 			<!-- {chat.lastMessage.time} -->
 		</span>
-		<i class="fa fa-star text-green-400" />
+		{#if unReadChatMessages.hasOwnProperty(chat.conversation_name)}
+			<div class="bg-green-400 w-5 h-5 rounded-full">
+				<p class="text-center fa fa text-sm text-gray-200">
+					{unReadChatMessages[chat.conversation_name]}
+				</p>
+			</div>
+			<!-- content here -->
+		{/if}
 	</div>
 </li>

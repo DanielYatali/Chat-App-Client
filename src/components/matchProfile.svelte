@@ -35,7 +35,7 @@
 
 	const message = () => {
 		(async () => {
-			const rawResponse = await fetch(endpoints.database + '/conversation/' + profile.user_id, {
+			const rawResponse = await fetch(endpoints.database + 'conversation/' + profile.user_id, {
 				method: 'GET',
 				headers: {
 					Accept: 'application/json',
