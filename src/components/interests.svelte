@@ -13,7 +13,10 @@
 	];
 	const movies = ['Horror', 'Action', 'Romance', 'Comdey', 'Animation'];
 	const musics = ['Dancehall', 'Soca', 'Pop', 'Clasical', 'I like everything', 'I hate music'];
-	let stayingIn, choosenSport, choosenMovie, choosenMusic;
+	let stayingIn = '',
+		choosenSport = '',
+		choosenMovie = '',
+		choosenMusic = '';
 	onMount(() => {
 		let interestDetails = get(InterestDetails);
 		stayingIn = interestDetails.stayingIn;

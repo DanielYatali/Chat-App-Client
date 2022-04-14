@@ -3,6 +3,7 @@
 	import MatchProfile from '../components/matchProfile.svelte';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { goto } from '$app/navigation';
 
 	// 	{ name: 'Daniel', university: 'UWI 1', faculty: 'Law', major: 'CS', location: 'Nice, St' },
 	// 	{
@@ -40,6 +41,14 @@
 
 	onMount(async () => {
 		const user = get(currentUser);
+		if (!user.loggedIn) {
+			goto('/no-auth');
+			return;
+		}
+		if (user.newUser) {
+			goto('/questions');
+			return;
+		}
 		//Get user matches
 		const rawResponse = await fetch('http://localhost:8080/' + user.id + '/match', {
 			method: 'GET',
@@ -51,6 +60,11 @@
 		});
 		profiles = await rawResponse.json(); //get all matches
 		numProfiles = profiles.length;
+		// if (profiles.hasOwnProperty('message') || numProfiles == 0) {
+		// 	console.log('ho');
+		// 	goto('/no-matches');
+		// 	return;
+		// }
 		console.log(profiles);
 		console.log(JSON.stringify(profiles[0].first_name));
 		console.log(JSON.stringify(numProfiles));

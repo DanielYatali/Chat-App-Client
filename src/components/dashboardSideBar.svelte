@@ -2,7 +2,8 @@
 	import { get } from 'svelte/store';
 
 	import CurrentQuestion from '../stores/questionStore';
-	import SideBarUser from './sideBarUser.svelte';
+	import SideBarUser from '../components/sideBarUser.svelte';
+	import { goto } from '$app/navigation';
 	let openSideBar = 'flex';
 	let closeSideBar = 'none';
 	let sideBarMove = 'translateX(-260px)';
@@ -17,31 +18,33 @@
 			sideBarMove = 'translateX(-260px)';
 		}
 	}
-	const questions = ['Personal Details', 'University Details', 'Interests', 'Socials'];
-
-	const changeQuestions = (question) => {
-		CurrentQuestion.set(question.question);
-		console.log(get(CurrentQuestion));
+	const options = ['Chat', 'Questions'];
+	const changeOption = (option) => {
+		if (option == 'Chat') {
+			goto('/chat');
+		} else {
+			goto('questions');
+		}
 	};
 </script>
 
 <div
 	style="min-height: 94vh"
-	class="w-64 absolute sm:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden sm:flex"
+	class="w-64 absolute md:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden md:flex"
 >
 	<div class="px-8">
 		<div class="mt-8 text-center">
 			<SideBarUser />
 		</div>
 		<ul class="mt-12">
-			{#each questions as question}
+			{#each options as option}
 				<!-- content here -->
 
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
 					<a
-						on:click={() => changeQuestions({ question })}
+						on:click|preventDefault={() => changeOption(option)}
 						href="#"
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
@@ -62,7 +65,7 @@
 								d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"
 							/>
 						</svg>
-						<span class="text-sm ml-2">{question} </span>
+						<span class="text-sm ml-2">{option} </span>
 					</a>
 				</li>
 			{/each}
@@ -71,7 +74,7 @@
 </div>
 <div
 	style="min-height:120vh;  transform: {sideBarMove};"
-	class="w-64 z-40 absolute bg-gray-800 shadow md:h-full flex-col justify-between sm:hidden transition duration-150 ease-in-out"
+	class="w-64 z-40 absolute bg-gray-800 shadow md:h-full flex-col justify-between md:hidden transition duration-150 ease-in-out"
 	id="mobile-nav"
 >
 	<button
@@ -103,13 +106,13 @@
 			<SideBarUser />
 		</div>
 		<ul class="mt-12">
-			{#each questions as question}
+			{#each options as option}
 				<!-- content here -->
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
 					<a
-						on:click={() => changeQuestions({ question })}
+						on:click|preventDefault={() => changeOption()}
 						href="#"
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
@@ -130,7 +133,7 @@
 								d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"
 							/>
 						</svg>
-						<span class="text-sm ml-2">{question}</span>
+						<span class="text-sm ml-2">{option}</span>
 					</a>
 				</li>
 			{/each}

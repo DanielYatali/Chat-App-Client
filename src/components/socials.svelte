@@ -20,7 +20,9 @@
 		Discord: '',
 		Whatsapp: ''
 	};
+	let user = {};
 	onMount(() => {
+		user = get(currentUser);
 		let socialDeatails = get(SocialDetails);
 		currentSocials.Instagram = socialDeatails.instagram;
 		currentSocials['Tik Tok'] = socialDeatails.instagram;
@@ -40,15 +42,15 @@
 			discord: currentSocials.Discord,
 			whatsapp: currentSocials.Whatsapp
 		});
-		console.log(currentSocials);
+		// console.log(currentSocials);
 	};
 
 	const saveAllInfo = (route) => {
-		const user = get(currentUser);
 		let personalDetails = get(PersonalDetails);
 		let universityDetails = get(UniversityDetails);
 		let interestDetails = get(InterestDetails);
 		let socialDetails = get(SocialDetails);
+		console.log(interestDetails);
 
 		let userDetails = {
 			user_id: user.id,
@@ -61,9 +63,9 @@
 			university: universityDetails.universityName,
 			faculty: universityDetails.faculty,
 			major: universityDetails.major,
+			photo: 'link',
 			movie: interestDetails.movie,
 			music: interestDetails.music,
-			photo: 'link',
 			staying_in: interestDetails.stayingIn,
 			sport: interestDetails.sport,
 			bot: 'human',
@@ -79,8 +81,9 @@
 				}
 			}
 		};
+		console.log(JSON.stringify(userDetails));
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/user/' + route, {
+			const rawResponse = await fetch('http://localhost:8080/user/create/update_info', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -89,8 +92,15 @@
 				},
 				body: JSON.stringify(userDetails)
 			});
-			let reponse = await rawResponse.json();
-			console.log(reponse);
+			try {
+				let reponse = await rawResponse.json();
+				let User = get(currentUser);
+				User.newUser = false;
+				currentUser.set(User);
+				goto(`/${route}`);
+			} catch (error) {
+				console.error(error);
+			}
 		})();
 	};
 </script>
@@ -142,17 +152,19 @@
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>Save</button
 							>
+							{#if !user.newUser}
+								<button
+									on:click|preventDefault={() => saveAllInfo('dashboard')}
+									type="submit"
+									class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+									>Update</button
+								>
+							{/if}
 							<button
-								on:click|preventDefault={() => saveAllInfo('update_info')}
+								on:click|preventDefault={() => saveAllInfo('match')}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								>Update</button
-							>
-							<button
-								on:click|preventDefault={() => saveAllInfo('create_info')}
-								type="submit"
-								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-								>Finish</button
+								>Get Matches</button
 							>
 						</div>
 					</div>
