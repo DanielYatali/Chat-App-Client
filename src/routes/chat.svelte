@@ -21,6 +21,7 @@
 	import Nav from '../components/nav.svelte';
 	import CurrentChat from '../stores/currentChatStore';
 	import { get } from 'svelte/store';
+	import { endpoints } from '$lib/endpoints.js';
 
 	let sender = {};
 	let currentChat;
@@ -31,7 +32,7 @@
 	onMount(() => {
 		sender = get(currentUser);
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/user/conversations/user_info', {
+			const rawResponse = await fetch(endpoints.database + '/user/conversations/user_info', {
 				method: 'GET',
 				headers: {
 					Accept: 'application/json',

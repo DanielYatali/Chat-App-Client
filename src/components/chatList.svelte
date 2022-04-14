@@ -4,6 +4,7 @@
 	import CurrentUser from '../stores/userDataStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import endpoints from '$lib/endpoints';
 
 	let user;
 	onMount(() => {
@@ -32,17 +33,14 @@
 		}
 		//Fix this
 		(async () => {
-			const rawResponse = await fetch(
-				'http://localhost:8080/' + chat.conversation_id + '/messages',
-				{
-					method: 'GET',
-					headers: {
-						Accept: 'application/json',
-						Authorization: 'JWT ' + user.token,
-						'Content-Type': 'application/json'
-					}
+			const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'JWT ' + user.token,
+					'Content-Type': 'application/json'
 				}
-			);
+			});
 			let messages = await rawResponse.json();
 			Messages.set(messages);
 			console.log(messages);

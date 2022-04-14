@@ -2,6 +2,7 @@
 	import { form, field } from 'svelte-forms';
 	import { matchField, required } from 'svelte-forms/validators';
 	import { goto } from '$app/navigation';
+	import { endpoints } from '$lib/endpoints';
 
 	const name = field('name', '', [required()], {
 		validateOnChange: false
@@ -30,7 +31,7 @@
 				email: $email.value
 			};
 			(async () => {
-				const rawResponse = await fetch('http://localhost:8080/signup', {
+				const rawResponse = await fetch(endpoints.database + '/signup', {
 					method: 'POST',
 					headers: {
 						Accept: 'application/json',

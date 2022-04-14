@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { endpoints } from '$lib/endpoints';
 	import SocialIcon from '../components/socialIcon.svelte';
 	import CurrentChat from '../stores/currentChatStore';
 	export let profile;
@@ -34,7 +35,7 @@
 
 	const message = () => {
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/conversation/' + profile.user_id, {
+			const rawResponse = await fetch(endpoints.database + '/conversation/' + profile.user_id, {
 				method: 'GET',
 				headers: {
 					Accept: 'application/json',

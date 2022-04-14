@@ -10,6 +10,7 @@
 	import InterestDetails from '../stores/interestStore';
 
 	import SocialDetails from '../stores/socialStore';
+	import { endpoints } from '$lib/endpoints.js';
 	const socials = ['Instagram', 'Tik Tok', 'Snapchat', 'Twitter', 'Steam', 'Discord', 'Whatsapp'];
 	let currentSocials = {
 		Instagram: '',
@@ -83,7 +84,7 @@
 		};
 		console.log(JSON.stringify(userDetails));
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/user/create/update_info', {
+			const rawResponse = await fetch(endpoints.database + '/user/create/update_info', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',

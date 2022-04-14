@@ -1,4 +1,10 @@
+<script>
+	import { endpoints } from '$lib/endpoints';
+	console.log(endpoints);
+</script>
+
 <div class="grid place-items-center">
+	<h1>{endpoints.database}</h1>
 	<h1>This is the home page</h1>
 
 	<form action="/login">

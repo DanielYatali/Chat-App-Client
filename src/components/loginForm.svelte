@@ -10,6 +10,7 @@
 	import UniversityDetails from '../stores/universityDetailsStore';
 	import InterestDetails from '../stores/interestStore';
 	import SocialDetails from '../stores/socialStore';
+	import { endpoints } from '$lib/endpoints';
 
 	const setPersonalDetails = (UserInfo) => {
 		PersonalDetails.set({
@@ -104,7 +105,7 @@
 			password: $password.value
 		};
 		(async () => {
-			const rawResponse = await fetch('http://localhost:8080/auth', {
+			const rawResponse = await fetch(endpoints.database + '/auth', {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -116,7 +117,7 @@
 			loginResponse = content;
 			console.log(loginResponse);
 			if (loginResponse.hasOwnProperty('access_token')) {
-				const Response = await fetch('http://localhost:8080/user/info', {
+				const Response = await fetch(endpoints.database + '/user/info', {
 					method: 'GET',
 					headers: {
 						Accept: 'application/json',

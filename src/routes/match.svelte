@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import { endpoints } from '$lib/endpoints.js';
 
 	// 	{ name: 'Daniel', university: 'UWI 1', faculty: 'Law', major: 'CS', location: 'Nice, St' },
 	// 	{
@@ -50,7 +51,7 @@
 			return;
 		}
 		//Get user matches
-		const rawResponse = await fetch('http://localhost:8080/' + user.id + '/match', {
+		const rawResponse = await fetch(endpoints.database + user.id + '/match', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
@@ -73,7 +74,7 @@
 			user_ids[i] = { id: profiles[i].user_id };
 		}
 		//Create a chat with each match
-		const response = await fetch('http://localhost:8080/conversation/create/matches', {
+		const response = await fetch(endpoints.database + '/conversation/create/matches', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',

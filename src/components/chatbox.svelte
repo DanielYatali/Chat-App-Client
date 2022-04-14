@@ -5,6 +5,7 @@
 	import CurrentChat from '../stores/currentChatStore';
 	import Messages from '../stores/messagesStore';
 	import { get } from 'svelte/store';
+	import { endpoints } from '$lib/endpoints';
 	export let currentChat = {};
 	export let sender = {};
 	let receiver = '';
@@ -22,7 +23,7 @@
 		if (currentChat.conversation_id != -1) {
 			(async () => {
 				const rawResponse = await fetch(
-					'http://localhost:8080/' + currentChat.conversation_id + '/conversation/messages',
+					endpoints.database + currentChat.conversation_id + '/conversation/messages',
 					{
 						method: 'GET',
 						headers: {
@@ -38,7 +39,7 @@
 		}
 	});
 	// const socket = io('https://hpoffice-paper-chat-app-server.herokuapp.com/');
-	const socket = io('http://localhost:5000/');
+	const socket = io(endpoints.socket);
 	let id;
 	//Remember to implent this in an onLoad function
 	socket.on('connection', () => {
