@@ -4,7 +4,7 @@
 	import CurrentUser from '../stores/userDataStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
-	import endpoints from '$lib/endpoints';
+	import { endpoints } from '$lib/endpoints';
 
 	let user;
 	onMount(() => {
