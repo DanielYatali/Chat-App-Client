@@ -14,6 +14,9 @@
 	let chatConversationNames = [];
 	let chats = [];
 	onMount(() => {
+		if (!$currentUser.loggedIn) {
+			goto('/login');
+		}
 		sender = get(currentUser);
 		(async () => {
 			const rawResponse = await fetch(endpoints.database + 'user/conversations/user_info', {

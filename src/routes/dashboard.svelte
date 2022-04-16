@@ -3,6 +3,15 @@
 	import DashboardSideBar from '../components/dashboardSideBar.svelte';
 	import GroupCard from '../components/groupCard.svelte';
 	import CarouselGroupCard from '../components/carouselGroupCard.svelte';
+	import CurrentUser from '../stores/userDataStore';
+	import { onMount } from 'svelte/internal';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		if (!$CurrentUser.loggedIn) {
+			goto('/login');
+		}
+	});
 </script>
 
 <div class="sticky top-0 w-full z-40">

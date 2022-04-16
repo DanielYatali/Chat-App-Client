@@ -3,33 +3,53 @@
 	import { get } from 'svelte/store';
 	import CurrentQuestion from '../stores/questionStore';
 	import InterestDetails from '../stores/interestStore';
+	import QuestionFormValidator from '../stores/questionFormValidator';
+	import { form, field } from 'svelte-forms';
+	import { required } from 'svelte-forms/validators';
+	let stayingIn = field('stayingIn', '', [required()], {
+		validateOnChange: true
+	});
+	let choosenSport = field('choosenSport', '', [required()], {
+		validateOnChange: true
+	});
+	let choosenMusic = field('choosenMusic', '', [required()], {
+		validateOnChange: true
+	});
+	let choosenMovie = field('choosenMovie', '', [required()], {
+		validateOnChange: true
+	});
+	let myForm = form(stayingIn, choosenSport, choosenMovie, choosenMusic);
+	$: noError =
+		$myForm.hasError('choosenSport.required') ||
+		$myForm.hasError('stayingIn.required') ||
+		$myForm.hasError('choosenMovie.required') ||
+		$myForm.hasError('choosenMusic.required');
+
 	const sports = ['Football', 'Cricket', 'Basketball', 'Tennis', 'I do not like sports'];
-	const movies = ['Horror', 'Action', 'Romance', 'Comdey', 'Animation'];
-	const musics = ['Dance Hall', 'Soca', 'Pop', 'Clasical', 'I hate music'];
-	let stayingIn = '',
-		choosenSport = '',
-		choosenMovie = '',
-		choosenMusic = '';
+	const movies = ['Horror', 'Action', 'Romance', 'Comedy', 'Animation'];
+	const musics = ['Dance Hall', 'Soca', 'Pop', 'Classical', 'I hate music'];
 	onMount(() => {
 		let interestDetails = get(InterestDetails);
-		stayingIn = interestDetails.stayingIn;
-		choosenSport = interestDetails.sport;
-		choosenMovie = interestDetails.movie;
-		choosenMusic = interestDetails.music;
+		$stayingIn.value = interestDetails.stayingIn;
+		$choosenSport.value = interestDetails.sport;
+		$choosenMovie.value = interestDetails.movie;
+		$choosenMusic.value = interestDetails.music;
 	});
 
 	const saveInfo = () => {
 		InterestDetails.set({
-			stayingIn: stayingIn,
-			sport: choosenSport,
-			movie: choosenMovie,
-			music: choosenMusic
+			stayingIn: $stayingIn.value,
+			sport: $choosenSport.value,
+			movie: $choosenMovie.value,
+			music: $choosenMusic.value
 		});
-		console.log({ stayingIn }, { choosenSport }, { choosenMovie }, { choosenMusic });
 	};
 	const next = () => {
 		saveInfo();
-		CurrentQuestion.set('Socials');
+		if (!noError) {
+			$QuestionFormValidator.interests = true;
+			CurrentQuestion.set('Socials');
+		}
 	};
 </script>
 
@@ -42,6 +62,7 @@
 			</div>
 		</div>
 		<div class="mt-5 md:mt-0 md:col-span-2">
+			<!-- svelte-ignore component-name-lowercase -->
 			<form action="#" method="POST">
 				<div class="shadow overflow-hidden sm:rounded-md">
 					<div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -54,8 +75,8 @@
 							<div class="mt-4 space-y-4">
 								<div class="flex items-center">
 									<input
-										on:click={() => (stayingIn = 'going out')}
-										checked={stayingIn == 'going out'}
+										on:click={() => ($stayingIn.value = 'going out')}
+										checked={$stayingIn.value == 'going out'}
 										value="go out"
 										id="staying-in"
 										name="staying-in"
@@ -69,8 +90,8 @@
 
 								<div class="flex items-center">
 									<input
-										on:click={() => (stayingIn = 'stay in')}
-										checked={stayingIn == 'stay in'}
+										on:click={() => ($stayingIn.value = 'stay in')}
+										checked={$stayingIn.value == 'stay in'}
 										value="stay home"
 										id="staying-in"
 										name="staying-in"
@@ -83,6 +104,9 @@
 								</div>
 							</div>
 						</fieldset>
+						{#if $myForm.hasError('stayingIn.required')}
+							<div class="text-red-500 text-xs">Staying in is required</div>
+						{/if}
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6" />
 				</div>
@@ -104,8 +128,8 @@
 								{#each sports as sport}
 									<div class="flex items-center">
 										<input
-											on:click={() => (choosenSport = sport)}
-											checked={choosenSport == sport}
+											on:click={() => ($choosenSport.value = sport)}
+											checked={$choosenSport.value == sport}
 											value={sport}
 											id="sport"
 											name="sport"
@@ -119,6 +143,9 @@
 								{/each}
 							</div>
 						</fieldset>
+						{#if $myForm.hasError('choosenSport.required')}
+							<div class="text-red-500 text-xs">Sport is required</div>
+						{/if}
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6" />
 				</div>
@@ -140,8 +167,8 @@
 								{#each movies as movie}
 									<div class="flex items-center">
 										<input
-											on:click={() => (choosenMovie = movie)}
-											checked={choosenMovie == movie}
+											on:click={() => ($choosenMovie.value = movie)}
+											checked={$choosenMovie.value == movie}
 											value={movie}
 											id="movie"
 											name="movie"
@@ -155,6 +182,9 @@
 								{/each}
 							</div>
 						</fieldset>
+						{#if $myForm.hasError('choosenMovie.required')}
+							<div class="text-red-500 text-xs">Movie is required</div>
+						{/if}
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6" />
 				</div>
@@ -176,9 +206,9 @@
 								{#each musics as music}
 									<div class="flex items-center">
 										<input
-											on:click={() => (choosenMusic = music)}
+											on:click={() => ($choosenMusic.value = music)}
 											value={music}
-											checked={choosenMusic == music}
+											checked={$choosenMusic.value == music}
 											id="music"
 											name="music"
 											type="radio"
@@ -191,7 +221,13 @@
 								{/each}
 							</div>
 						</fieldset>
+						{#if $myForm.hasError('choosenMusic.required')}
+							<div class="text-red-500 text-xs">Music is required</div>
+						{/if}
 					</div>
+					{#if noError}
+						<p class="text-red-500">Please fill out all required fields</p>
+					{/if}
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-end gap-6">
 						<button
 							on:click|preventDefault={saveInfo}
@@ -200,6 +236,7 @@
 							>Save</button
 						><button
 							on:click|preventDefault={next}
+							disabled={noError}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Next</button

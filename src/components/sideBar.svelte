@@ -40,9 +40,8 @@
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
-					<a
+					<button
 						on:click={() => changeQuestions({ question })}
-						href="#"
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
 						<svg
@@ -63,7 +62,7 @@
 							/>
 						</svg>
 						<span class="text-sm ml-2">{question} </span>
-					</a>
+					</button>
 				</li>
 			{/each}
 		</ul>
@@ -108,9 +107,8 @@
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
-					<a
+					<button
 						on:click={() => changeQuestions({ question })}
-						href="#"
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
 						<svg
@@ -131,7 +129,7 @@
 							/>
 						</svg>
 						<span class="text-sm ml-2">{question}</span>
-					</a>
+					</button>
 				</li>
 			{/each}
 		</ul>

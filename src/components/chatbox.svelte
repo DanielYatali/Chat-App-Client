@@ -8,7 +8,6 @@
 	import UnReadChatMessages from '../stores/unReadChatMessages';
 	import CurrentUser from '../stores/userDataStore';
 	export let chats = [];
-	let messages = [];
 	let currentChat = {},
 		sender = {},
 		receiver = '';

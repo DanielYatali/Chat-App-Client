@@ -5,17 +5,20 @@
 	import UniversityDetails from '../components/universityDetails.svelte';
 	import Interests from '../components/interests.svelte';
 	import Socials from '../components/socials.svelte';
-	import Search from '../components/search.svelte';
 	import CurrentQuestion from '../stores/questionStore';
-	import { get } from 'svelte/store';
-	import PersonalDetailsStore from '../stores/personalDetailsStore';
+	import CurrentUser from '../stores/userDataStore';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	let currentQuestions;
 
 	CurrentQuestion.subscribe((value) => {
 		currentQuestions = value;
 	});
-
-	let userInfo;
+	onMount(() => {
+		if (!$CurrentUser.loggedIn) {
+			goto('/login');
+		}
+	});
 </script>
 
 <div class="sticky top-0 w-full">
@@ -30,7 +33,6 @@
 		style="min-height: 93vh;"
 		class="sm:ml-64 container mx-auto py-10 md:w-4/5 w-11/12 px-6 overflow--y-scroll "
 	>
-		<!-- {userInfo.personalDetails.firstName} -->
 		{#if currentQuestions == 'Socials'}
 			<Socials />
 		{:else if currentQuestions == 'University Details'}

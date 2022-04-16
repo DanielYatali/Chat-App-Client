@@ -6,7 +6,8 @@ const PersonalDetails = writable({
 	email: '',
 	country: '',
 	city: '',
-	about: ''
+	about: '',
+	photo: 'https://i.ibb.co/f0rM4vQ/person.jpg' //default photo
 });
 
 export default PersonalDetails;

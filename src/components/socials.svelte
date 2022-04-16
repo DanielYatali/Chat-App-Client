@@ -1,7 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
 	import currentUser from '../stores/userDataStore.js';
@@ -11,39 +10,42 @@
 
 	import SocialDetails from '../stores/socialStore';
 	import { endpoints } from '$lib/endpoints.js';
-	const socials = ['Instagram', 'Tik Tok', 'Snapchat', 'Twitter', 'Steam', 'Discord', 'Whatsapp'];
-	let currentSocials = {
-		Instagram: '',
-		'Tik Tok': '',
-		Snapchat: '',
-		Twitter: '',
-		Steam: '',
-		Discord: '',
-		Whatsapp: ''
-	};
-	let user = {};
-	onMount(() => {
-		user = get(currentUser);
-		let socialDeatails = get(SocialDetails);
-		currentSocials.Instagram = socialDeatails.instagram;
-		currentSocials['Tik Tok'] = socialDeatails.instagram;
-		currentSocials.Snapchat = socialDeatails.snapChat;
-		currentSocials.Twitter = socialDeatails.twitter;
-		currentSocials.Steam = socialDeatails.steam;
-		currentSocials.Discord = socialDeatails.discord;
-		currentSocials.Whatsapp = socialDeatails.whatsapp;
-	});
+	import QuestionFormValidator from '../stores/questionFormValidator.js';
+	const socials = ['Instagram', 'TikTok', 'GitHub', 'Twitter', 'Steam', 'Discord', 'Whatsapp'];
+	$: noError =
+		$QuestionFormValidator.interests &&
+		$QuestionFormValidator.personalDetails &&
+		$QuestionFormValidator.universityDetails;
+	// let currentSocials = {
+	// 	Instagram: '',
+	// 	'Tik Tok': '',
+	// 	GitHub: '',
+	// 	Twitter: '',
+	// 	Steam: '',
+	// 	Discord: '',
+	// 	Whatsapp: ''
+	// };
+	// onMount(() => {
+	// 	user = get(currentUser);
+	// 	let socialDeatails = get(SocialDetails);
+	// 	currentSocials.Instagram = socialDeatails.instagram;
+	// 	currentSocials['Tik Tok'] = socialDeatails.instagram;
+	// 	currentSocials. = socialDeatails.snapChat;
+	// 	currentSocials.Twitter = socialDeatails.twitter;
+	// 	currentSocials.Steam = socialDeatails.steam;
+	// 	currentSocials.Discord = socialDeatails.discord;
+	// 	currentSocials.Whatsapp = socialDeatails.whatsapp;
+	// });
 	const saveInfo = () => {
 		SocialDetails.set({
-			instagram: currentSocials.Instagram,
-			tikTok: currentSocials['Tik Tok'],
-			snapChat: currentSocials.Snapchat,
-			twitter: currentSocials.Twitter,
-			steam: currentSocials.Steam,
-			discord: currentSocials.Discord,
-			whatsapp: currentSocials.Whatsapp
+			Instagram: $SocialDetails.Instagram,
+			TikTok: $SocialDetails.TikTok,
+			GitHub: $SocialDetails.GitHub,
+			Twitter: $SocialDetails.Twitter,
+			Steam: $SocialDetails.Steam,
+			Discord: $SocialDetails.Discord,
+			Whatsapp: $SocialDetails.Whatsapp
 		});
-		// console.log(currentSocials);
 	};
 
 	const saveAllInfo = (route) => {
@@ -51,10 +53,9 @@
 		let universityDetails = get(UniversityDetails);
 		let interestDetails = get(InterestDetails);
 		let socialDetails = get(SocialDetails);
-		console.log(interestDetails);
 
 		let userDetails = {
-			user_id: user.id,
+			user_id: $currentUser.id,
 			first_name: personalDetails.firstName,
 			last_name: personalDetails.lastName,
 			email: personalDetails.email,
@@ -64,7 +65,7 @@
 			university: universityDetails.universityName,
 			faculty: universityDetails.faculty,
 			major: universityDetails.major,
-			photo: user.photo,
+			photo: $currentUser.photo,
 			movie: interestDetails.movie,
 			music: interestDetails.music,
 			staying_in: interestDetails.stayingIn,
@@ -72,13 +73,13 @@
 			bot: 'human',
 			other_info: {
 				socials: {
-					instagram: socialDetails.instagram,
-					twitter: socialDetails.twitter,
-					discord: socialDetails.discord,
-					snapchat: socialDetails.snapChat,
-					whatsapp: socialDetails.whatsapp,
-					steam: socialDetails.steam,
-					tiktok: socialDetails.tikTok
+					instagram: socialDetails.Instagram,
+					twitter: socialDetails.Twitter,
+					discord: socialDetails.Discord,
+					github: socialDetails.GitHub,
+					whatsapp: socialDetails.Whatsapp,
+					steam: socialDetails.Steam,
+					tiktok: socialDetails.TikTok
 				}
 			}
 		};
@@ -88,7 +89,7 @@
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
-					Authorization: 'JWT ' + user.token,
+					Authorization: 'JWT ' + $currentUser.token,
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(userDetails)
@@ -96,9 +97,7 @@
 			try {
 				let response = await rawResponse.json();
 				console.log(response);
-				let User = get(currentUser);
-				User.newUser = false;
-				currentUser.set(User);
+				$currentUser.newUser = false;
 				goto(`/${route}`);
 			} catch (error) {
 				console.error(error);
@@ -128,18 +127,26 @@
 											{social}
 										</label>
 										<div class="mt-1 flex rounded-md shadow-sm">
-											<span
-												class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
-											>
-												http://
-											</span>
+											{#if social == 'Whatsapp'}
+												<span
+													class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+												>
+													#
+												</span>
+											{:else}
+												<span
+													class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+												>
+													http://
+												</span>
+											{/if}
 											<input
-												bind:value={currentSocials[social]}
+												bind:value={$SocialDetails[social]}
 												type="text"
 												name={social}
 												id={social}
 												class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-												placeholder="www.example.com"
+												placeholder={social == 'Whatsapp' ? 'phone-number' : 'www.example.com'}
 											/>
 										</div>
 									</div>
@@ -147,6 +154,9 @@
 								<br />
 							{/each}
 						</div>
+						{#if !noError}
+							<p class="text-red-500">Please review required questions some have been left blank</p>
+						{/if}
 						<div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-end gap-6">
 							<button
 								on:click|preventDefault={saveInfo}
@@ -154,7 +164,7 @@
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>Save</button
 							>
-							{#if !user.newUser}
+							{#if !$currentUser.newUser}
 								<button
 									on:click|preventDefault={() => saveAllInfo('dashboard')}
 									type="submit"
@@ -164,6 +174,7 @@
 							{/if}
 							<button
 								on:click|preventDefault={() => saveAllInfo('match')}
+								disabled={!noError}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 								>Get Matches</button

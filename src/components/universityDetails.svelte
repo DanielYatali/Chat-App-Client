@@ -1,4 +1,7 @@
 <script>
+	import QuestionFormValidator from '../stores/questionFormValidator';
+	import { form, field } from 'svelte-forms';
+	import { required } from 'svelte-forms/validators';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import CurrentQuestion from '../stores/questionStore';
@@ -10,29 +13,44 @@
 		'Law',
 		'Medical Sciences',
 		'Science & Technology',
-		'Social Sciences'
+		'Social Sciences',
+		'Sport'
 	];
 	const majors = ['Computer Science', 'Information Technology', 'Mathematics'];
 
-	let univerityName, choosen_faculty, major;
-
+	let universityName = field('universityName', '', [required()], {
+		validateOnChange: true
+	});
+	let choosenFaculty = field('faculty', '', [required()], {
+		validateOnChange: true
+	});
+	let major = field('major', '', [required()], {
+		validateOnChange: true
+	});
+	let myForm = form(universityName, choosenFaculty, major);
+	$: noError =
+		$myForm.hasError('universityName.required') ||
+		$myForm.hasError('faculty.required') ||
+		$myForm.hasError('major.required');
 	onMount(() => {
-		let univerityDetails = get(UniversityDetails);
-		univerityName = univerityDetails.universityName;
-		choosen_faculty = univerityDetails.faculty;
-		major = univerityDetails.major;
+		let universityDetails = get(UniversityDetails);
+		$universityName.value = universityDetails.universityName;
+		$choosenFaculty.value = universityDetails.faculty;
+		$major.value = universityDetails.major;
 	});
 	const saveInfo = () => {
 		UniversityDetails.set({
-			universityName: univerityName,
-			faculty: choosen_faculty,
-			major: major
+			universityName: $universityName.value,
+			faculty: $choosenFaculty.value,
+			major: $major.value
 		});
-		// console.log({ choosen_faculty }, { univerityName }, { major });
 	};
 	const next = () => {
 		saveInfo();
-		CurrentQuestion.set('Interests');
+		if (!noError) {
+			$QuestionFormValidator.universityDetails = true;
+			CurrentQuestion.set('Interests');
+		}
 	};
 </script>
 
@@ -45,6 +63,7 @@
 			</div>
 		</div>
 		<div class="mt-5 md:mt-0 md:col-span-2">
+			<!-- svelte-ignore component-name-lowercase -->
 			<form action="#" method="POST">
 				<div class="shadow overflow-hidden sm:rounded-md">
 					<div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -59,7 +78,7 @@
 									>University name</label
 								>
 								<input
-									bind:value={univerityName}
+									bind:value={$universityName.value}
 									type="text"
 									name="first-name"
 									id="first-name"
@@ -67,6 +86,9 @@
 									class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 								/>
 							</div>
+							{#if $myForm.hasError('universityName.required')}
+								<div class="text-red-500 text-xs">University is required</div>
+							{/if}
 						</fieldset>
 					</div>
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6" />
@@ -90,8 +112,8 @@
 								{#each faculties as faculty}
 									<div class="flex items-center">
 										<input
-											on:click={() => (choosen_faculty = faculty)}
-											checked={choosen_faculty == faculty}
+											on:click={() => ($choosenFaculty.value = faculty)}
+											checked={$choosenFaculty.value == faculty}
 											value={faculty}
 											id="faculty"
 											name="faculty"
@@ -103,6 +125,9 @@
 										</label>
 									</div>
 								{/each}
+								{#if $myForm.hasError('faculty.required')}
+									<div class="text-red-500 text-xs">Faculty is required</div>
+								{/if}
 							</div>
 						</fieldset>
 					</div>
@@ -128,7 +153,7 @@
 										>Major in:</label
 									>
 									<select
-										bind:value={major}
+										bind:value={$major.value}
 										id="Major"
 										name="Major"
 										autocomplete="Major-name"
@@ -138,10 +163,16 @@
 											<option>{major}</option>
 										{/each}
 									</select>
+									{#if $myForm.hasError('major.required')}
+										<div class="text-red-500 text-xs">Major is required</div>
+									{/if}
 								</div>
 							</div>
 						</fieldset>
 					</div>
+					{#if noError}
+						<p class="text-red-500">Please fill out all required fields</p>
+					{/if}
 					<div class="px-4 py-3 bg-gray-50 text-right sm:px-6 flex justify-end gap-6">
 						<button
 							on:click|preventDefault={saveInfo}
@@ -149,6 +180,7 @@
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 							>Save</button
 						><button
+							disabled={noError}
 							on:click|preventDefault={next}
 							type="submit"
 							class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

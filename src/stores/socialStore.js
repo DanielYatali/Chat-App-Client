@@ -1,13 +1,13 @@
 import { writable } from 'svelte/store';
 
 const SocialDetails = writable({
-	instagram: '',
-	tikTok: '',
-	snapChat: '',
-	steam: '',
-	discord: '',
-	whatsapp: '',
-	twitter: ''
+	Instagram: '',
+	TikTok: '',
+	GitHub: '',
+	Steam: '',
+	Discord: '',
+	Whatsapp: '',
+	Twitter: ''
 });
 
 export default SocialDetails;
