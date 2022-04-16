@@ -1,17 +1,3 @@
-<!-- <script context="module">
-	import { get } from 'svelte/store';
-	export async function load({ url, params }) {
-		const receiver = params.to;
-		console.log(sender.token);
-		
-		return {
-			props: {
-				receiver,
-				sender
-			}
-		};
-	}
-</script> -->
 <script>
 	import currentUser from '../stores/userDataStore.js';
 	import ChatSideBar from '../components/chatSideBar.svelte';
@@ -19,17 +5,13 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Nav from '../components/nav.svelte';
-	import CurrentChat from '../stores/currentChatStore';
 	import { get } from 'svelte/store';
 	import { endpoints } from '$lib/endpoints.js';
 	import ChatMessages from '../stores/chatMessages';
 	import { socket } from '$lib/socket';
+
 	let sender = {};
-	let currentChat;
 	let chatConversationNames = [];
-	CurrentChat.subscribe((value) => {
-		currentChat = value;
-	});
 	let chats = [];
 	onMount(() => {
 		sender = get(currentUser);
@@ -77,12 +59,7 @@
 			<ChatSideBar {chats} />
 		</div>
 		<div class="mt-0 sm:mt-4 sm:ml-72 md:ml-80 container mx-auto md:w-4/5 w-11/12 px-1">
-			<ChatBox
-				{currentChat}
-				{sender}
-				receiver={currentChat.conversation_name}
-				chats={chatConversationNames}
-			/>
+			<ChatBox chats={chatConversationNames} />
 		</div>
 	</div>
 </div>

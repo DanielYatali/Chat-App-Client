@@ -6,6 +6,7 @@ const CurrentChat = writable({
 	private: false,
 	receiver_id: '', //Only used for private chat
 	receiver_username: '',
+	photo: '',
 	bot: ''
 });
 

@@ -139,7 +139,7 @@
 						username: user.username,
 						token: loginResponse.access_token,
 						loggedIn: true,
-						photo: 'https://i.ibb.co/f0rM4vQ/person.jpg',
+						photo: UserInfo.photo,
 						newUser: newUser
 					});
 					//Since user has no information send them to answer questions

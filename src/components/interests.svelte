@@ -3,16 +3,9 @@
 	import { get } from 'svelte/store';
 	import CurrentQuestion from '../stores/questionStore';
 	import InterestDetails from '../stores/interestStore';
-	const sports = [
-		'Football',
-		'Cricket',
-		'BasketBall',
-		'Tennis',
-		'I do not like sports',
-		'My sport is not here'
-	];
+	const sports = ['Football', 'Cricket', 'Basketball', 'Tennis', 'I do not like sports'];
 	const movies = ['Horror', 'Action', 'Romance', 'Comdey', 'Animation'];
-	const musics = ['Dancehall', 'Soca', 'Pop', 'Clasical', 'I like everything', 'I hate music'];
+	const musics = ['Dance Hall', 'Soca', 'Pop', 'Clasical', 'I hate music'];
 	let stayingIn = '',
 		choosenSport = '',
 		choosenMovie = '',

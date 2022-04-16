@@ -64,7 +64,7 @@
 			university: universityDetails.universityName,
 			faculty: universityDetails.faculty,
 			major: universityDetails.major,
-			photo: 'link',
+			photo: user.photo,
 			movie: interestDetails.movie,
 			music: interestDetails.music,
 			staying_in: interestDetails.stayingIn,
@@ -94,7 +94,8 @@
 				body: JSON.stringify(userDetails)
 			});
 			try {
-				let reponse = await rawResponse.json();
+				let response = await rawResponse.json();
+				console.log(response);
 				let User = get(currentUser);
 				User.newUser = false;
 				currentUser.set(User);

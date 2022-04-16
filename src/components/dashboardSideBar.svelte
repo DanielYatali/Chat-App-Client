@@ -3,6 +3,7 @@
 
 	import CurrentQuestion from '../stores/questionStore';
 	import SideBarUser from '../components/sideBarUser.svelte';
+	import currentUser from '../stores/userDataStore';
 	import { goto } from '$app/navigation';
 	let openSideBar = 'flex';
 	let closeSideBar = 'none';
@@ -23,7 +24,7 @@
 		if (option == 'Chat') {
 			goto('/chat');
 		} else {
-			goto('questions');
+			goto('/questions');
 		}
 	};
 </script>
@@ -43,9 +44,8 @@
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
-					<a
+					<button
 						on:click|preventDefault={() => changeOption(option)}
-						href="#"
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
 						<svg
@@ -66,7 +66,7 @@
 							/>
 						</svg>
 						<span class="text-sm ml-2">{option} </span>
-					</a>
+					</button>
 				</li>
 			{/each}
 		</ul>
@@ -111,9 +111,8 @@
 				<li
 					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
 				>
-					<a
-						on:click|preventDefault={() => changeOption()}
-						href="#"
+					<button
+						on:click|preventDefault={() => changeOption(option)}
 						class="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
 					>
 						<svg
@@ -134,7 +133,7 @@
 							/>
 						</svg>
 						<span class="text-sm ml-2">{option}</span>
-					</a>
+					</button>
 				</li>
 			{/each}
 		</ul>

@@ -1,5 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
+	import currentUser from '../stores/userDataStore';
+	import CurrentUser from '../stores/userDataStore';
 	let mainMenu = 'none';
 	let userMenu = 'none';
 	const toggleMainMenu = () => {
@@ -8,6 +10,10 @@
 	const toggleUserMenu = () => {
 		userMenu = userMenu == 'none' ? 'block' : 'none';
 	};
+	let user = {};
+	currentUser.subscribe((value) => {
+		user = value;
+	});
 </script>
 
 <nav class="bg-gray-800">
@@ -139,12 +145,7 @@
 							aria-haspopup="true"
 						>
 							<span class="sr-only">Open user menu</span>
-							<img
-								on:click={toggleUserMenu}
-								class="h-8 w-8 rounded-full"
-								src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-								alt=""
-							/>
+							<img on:click={toggleUserMenu} class="h-8 w-8 rounded-full" src={user.photo} alt="" />
 						</button>
 					</div>
 
@@ -157,7 +158,7 @@
 						tabindex="-1"
 					>
 						<a
-							href="#"
+							href="/profile"
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
@@ -171,7 +172,7 @@
 							id="user-menu-item-1">Settings</a
 						>
 						<a
-							href="#"
+							href="/signout"
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
@@ -188,25 +189,18 @@
 		<div class="px-2 pt-2 pb-3 space-y-1">
 			<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 			<a
-				href="#"
+				href="/"
 				class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
 				aria-current="page">Home</a
 			>
-
 			<a
-				href="#"
+				href="/dashboard"
 				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-				>SignUp</a
+				>Dashboard</a
 			>
 
 			<a
-				href="#"
-				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-				>Login</a
-			>
-
-			<a
-				href="#"
+				href="/about"
 				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
 				>About</a
 			>

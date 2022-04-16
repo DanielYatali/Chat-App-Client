@@ -3,8 +3,14 @@
 	import { endpoints } from '$lib/endpoints';
 	import SocialIcon from '../components/socialIcon.svelte';
 	import CurrentChat from '../stores/currentChatStore';
+	import CurrentUser from '../stores/userDataStore';
 	export let profile;
-	export let currentUser;
+
+	let user = {};
+	CurrentUser.subscribe((value) => {
+		user = value;
+	});
+
 	const socialIcons = [
 		{
 			name: 'Facebook',
@@ -39,7 +45,7 @@
 				method: 'GET',
 				headers: {
 					Accept: 'application/json',
-					Authorization: 'JWT ' + currentUser.token,
+					Authorization: 'JWT ' + user.token,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -51,14 +57,15 @@
 					private: conversation.private,
 					receiver_id: profile.user_id,
 					receiver_username: profile.username,
-					bot: conversation.bot
+					bot: conversation.bot,
+					photo: profile.photo
 				});
 				console.log(conversation);
+				goto('/chat');
 			} catch (error) {
 				console.error(error);
 			}
 		})();
-		goto('/chat');
 	};
 </script>
 
@@ -70,7 +77,7 @@
 		<!-- Image for mobile view-->
 		<div
 			class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-			style="background-image: url('https://source.unsplash.com/MP0IUfwrn0A')"
+			style="background-image: url({profile.photo})"
 		/>
 
 		<h1 class="text-3xl font-bold pt-8 lg:pt-0">
@@ -162,7 +169,7 @@
 <div class="w-full lg:w-2/5">
 	<!-- Big profile image for side bar (desktop) -->
 	<img
-		src="https://source.unsplash.com/MP0IUfwrn0A"
+		src={profile.photo}
 		class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
 		alt="profile-pic"
 	/>

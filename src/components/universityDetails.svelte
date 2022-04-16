@@ -6,7 +6,7 @@
 	const faculties = [
 		'Engineering',
 		'Food & Agriculture',
-		'Humanities and Education',
+		'Humanities & Education',
 		'Law',
 		'Medical Sciences',
 		'Science & Technology',

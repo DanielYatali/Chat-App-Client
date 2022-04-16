@@ -10,7 +10,7 @@
 	export let chat;
 	let user = {};
 	let allChatMessages = {};
-	let lastMessage = { content: '' };
+	let lastMessage = { content: '', datetime: '' };
 	let unReadChatMessages = {};
 	UnReadChatMessages.subscribe((value) => {
 		unReadChatMessages = value;
@@ -22,7 +22,7 @@
 	});
 
 	onMount(() => {
-		lastMessage = { content: '' };
+		lastMessage = { content: '', datetime: '' };
 		user = get(CurrentUser);
 		(async () => {
 			const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
@@ -57,7 +57,8 @@
 				private: chat.private,
 				receiver_id: chat.user_id,
 				receiver_username: chat.username,
-				bot: chat.bot
+				bot: chat.bot,
+				photo: chat.photo
 			});
 		} else {
 			CurrentChat.set({
@@ -66,7 +67,8 @@
 				private: chat.private,
 				receiver_id: '',
 				receiver_username: '',
-				bot: ''
+				bot: '',
+				photo: chat.photo
 			});
 		}
 		// Messages.set(allChatMessages[chat.conversation_name]);
@@ -97,14 +99,7 @@
 	class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition"
 >
 	<div class="flex ml-2">
-		<!-- <img src={chat.photo} width="40" height="40" class="rounded-full" alt="profile" /> -->
-		<img
-			src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
-			width="40"
-			height="40"
-			class="rounded-full"
-			alt="profile"
-		/>
+		<img src={chat.photo} class="rounded-full w-10 h-10" alt="profile-img" />
 		<div class="flex flex-col ml-2">
 			{#if chat.private}
 				<span class="font-medium text-black">{chat.username}</span>
@@ -121,7 +116,10 @@
 	</div>
 	<div class="flex flex-col items-center">
 		<span class="text-gray-300">
-			10:10
+			{#if lastMessage}
+				<!-- content here -->
+				{lastMessage['datetime']}
+			{/if}
 			<!-- {chat.lastMessage.time} -->
 		</span>
 		{#if unReadChatMessages.hasOwnProperty(chat.conversation_name)}

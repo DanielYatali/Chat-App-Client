@@ -1,28 +1,36 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
-	// import { io } from 'socket.io-client';
 	import { socket } from '$lib/socket';
 	import CurrentChat from '../stores/currentChatStore';
-	import Messages from '../stores/messagesStore';
 	import { get } from 'svelte/store';
 	import ChatMessages from '../stores/chatMessages';
 	import UnReadChatMessages from '../stores/unReadChatMessages';
-	import { endpoints } from '$lib/endpoints';
-	export let currentChat = {};
-	export let sender = {};
-	export let receiver = '';
+	import CurrentUser from '../stores/userDataStore';
 	export let chats = [];
+	let messages = [];
+	let currentChat = {},
+		sender = {},
+		receiver = '';
 	let message;
-	let chatScroll;
-	let y;
 	let allChatMessages = {};
+
+	CurrentUser.subscribe((value) => {
+		sender = value;
+	});
 	ChatMessages.subscribe((value) => {
 		allChatMessages = value;
-		// console.log(JSON.stringify(value));
 	});
-
-	// console.log(JSON.stringify(get(ChatMessages)));
+	CurrentChat.subscribe((value) => {
+		currentChat = value;
+		receiver = currentChat.conversation_name;
+	});
+	onMount(() => {
+		allChatMessages = get(ChatMessages);
+		sender = get(CurrentUser);
+		currentChat = get(CurrentChat);
+		receiver = currentChat.conversation_name;
+	});
 	let id;
 	//Remember to implent this in an onLoad function
 	socket.on('connection', () => {
@@ -61,7 +69,8 @@
 				sender_name: sender.username,
 				content: message,
 				datetime: time,
-				token: sender.token
+				token: sender.token,
+				photo: sender.photo
 			});
 		message = '';
 	};
@@ -78,14 +87,10 @@
 		<div class="flex mx-4 sm:items-center justify-between py-3 border-b-2 border-gray-200">
 			<div class="relative flex items-center space-x-4">
 				<div class="relative">
-					<img
-						src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
-						alt=""
-						class="w-10 sm:w-16 h-10 sm:h-16 rounded-full"
-					/>
+					<img src={currentChat.photo} alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" />
 				</div>
 				<div class="flex flex-col leading-tight">
-					<div class="text-2xl mt-1 flex items-center">
+					<div class="sm:text-xl md:2xl: mt-1 flex items-center">
 						{#if currentChat.private}
 							<span class="text-gray-700 mr-3">{currentChat.receiver_username}</span>
 							<!-- content here -->
@@ -97,7 +102,7 @@
 					<!-- <span class="text-lg text-gray-600">Junior Developer</span> -->
 				</div>
 			</div>
-			<div class="flex items-center space-x-2">
+			<div class="md:flex items-center space-x-2 hidden">
 				<!-- search button -->
 				<button
 					type="button"
@@ -162,49 +167,44 @@
 		</div>
 		<!-- chat box -->
 		<div
-			bind:this={chatScroll}
 			id="messages"
 			class="h-screen flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
 		>
-			<div class="chat-message">
-				{#each allChatMessages[receiver] as message}
-					{#if message.sender_name == sender.username}
-						<div class="flex items-end justify-end">
-							<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-								<div class="px-4 py-2 rounded-full flex rounded-br-none blue-msg text-white">
-									<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
-									<span class="time pb-2">{message.datetime}</span>
-								</div>
-							</div>
-							<img
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
-								alt="My profile"
-								class="w-10 h-10 rounded-full order-2"
-							/>
-						</div>
-					{:else}
-						<div class="flex items-end">
-							<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-								<div>
-									<div class="px-4 py-2 rounded-full flex rounded-bl-none cream-msg text-gray-600">
-										<div class="flex flex-col">
-											<span class="mr-3">{message.sender_name}</span>
-											<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
-										</div>
-										<span class=" time pb-2">{message.datetime}</span>
+			{#if allChatMessages[receiver]}
+				<div class="chat-message">
+					{#each allChatMessages[receiver] as message}
+						{#if message.sender_name == sender.username}
+							<div class="flex items-end justify-end">
+								<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+									<div class="px-4 py-2 rounded-full flex rounded-br-none blue-msg text-white">
+										<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
+										<span class="time pb-2">{message.datetime}</span>
 									</div>
 								</div>
+								<img src={sender.photo} alt="My profile" class="w-10 h-10 rounded-full order-2" />
 							</div>
-							<img
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/542px-Unknown_person.jpg?20200423155822"
-								alt="My profile"
-								class="w-10 h-10 rounded-full order-1"
-							/>
-						</div>
-					{/if}
-					<br class="line-break" />
-				{/each}
-			</div>
+						{:else}
+							<div class="flex items-end">
+								<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+									<div>
+										<div
+											class="px-4 py-2 rounded-full flex rounded-bl-none cream-msg text-gray-600"
+										>
+											<div class="flex flex-col">
+												<span class="mr-3">{message.sender_name}</span>
+												<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
+											</div>
+											<span class=" time pb-2">{message.datetime}</span>
+										</div>
+									</div>
+								</div>
+								<img src={message.photo} alt="My profile" class="w-10 h-10 rounded-full order-1" />
+							</div>
+						{/if}
+						<br class="line-break" />
+					{/each}
+				</div>
+			{/if}
 		</div>
 		<div class="sticky bottom-0 border-gray-200 p-2 mb-0">
 			<div class="relative flex">

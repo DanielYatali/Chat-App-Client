@@ -6,23 +6,11 @@
 	import { goto } from '$app/navigation';
 	import { endpoints } from '$lib/endpoints.js';
 
-	// 	{ name: 'Daniel', university: 'UWI 1', faculty: 'Law', major: 'CS', location: 'Nice, St' },
-	// 	{
-	// 		name: 'Yatali',
-	// 		university: 'UWI 2',
-	// 		faculty: 'Sport',
-	// 		major: 'BasketBall',
-	// 		location: 'H, St'
-	// 	},
-	// 	{ name: 'Bob', university: 'UWI 3', faculty: 'Med Sci', major: 'Doctor', location: 'St, St' },
-	// 	{ name: 'John', university: 'UWI 4', faculty: 'DCIT', major: 'Cs', location: 'Rio, St' },
-	// 	{ name: 'Harry', university: 'UWI 5', faculty: 'Agri', major: 'Plant', location: 'P, St' }
-	// ];
 	export let profiles = [
 		{
 			first_name: 'No',
-			last_name: '',
-			username: '',
+			last_name: 'Matches',
+			username: 'Sorry',
 			city: '',
 			country: '',
 			user_id: 'invalid',
@@ -175,7 +163,7 @@
 			 C255,161.018,253.42,157.202,250.606,154.389z"
 		/>
 	</svg>
-	<MatchProfile profile={profiles[currentProfile]} {currentUser} />
+	<MatchProfile profile={profiles[currentProfile]} />
 	<!-- Pin to top right corner -->
 	<!-- <div class="absolute top-0 right-0 h-12 w-18 p-4">
 			 <button class="js-change-theme focus:outline-none">🌙</button>

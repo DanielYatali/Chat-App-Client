@@ -22,23 +22,6 @@
 			sideBarMove = 'translateX(-288px)';
 		}
 	}
-	// const chatList = [
-	// 	{
-	// 		name: 'Jessica Koel',
-	// 		lastMessage: { time: '10:26', content: 'Hey Joel, I here to help you out please tell me' },
-	// 		photo: 'https://i.imgur.com/eMaYwXn.jpg'
-	// 	},
-	// 	{
-	// 		name: 'Komeial Bolger',
-	// 		lastMessage: { time: '12:26', content: 'I will send you all the documents soon' },
-	// 		photo: 'https://i.imgur.com/uIgDDDd.jpg'
-	// 	},
-	// 	{
-	// 		name: 'Caroline Nexon',
-	// 		lastMessage: { time: '9:26', content: 'We need to start a new research center' },
-	// 		photo: 'https://i.imgur.com/aq39RMA.jpg'
-	// 	}
-	// ];
 </script>
 
 <div
