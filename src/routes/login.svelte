@@ -3,7 +3,7 @@
 
 	import { onMount } from 'svelte';
 
-	import LogForm from '../components/logform.svelte';
+	import LoginForm from '../components/loginForm.svelte';
 	import PersonalDetails from '../stores/personalDetailsStore';
 	import InterestDetails from '../stores/interestStore';
 	import UniversityDetails from '../stores/universityDetailsStore';
@@ -119,7 +119,7 @@
 	class="md:bg-[url('https://i.imgur.com/0CUwW1S.jpeg')] bg-cover bg-no-repeat  bg-[url('https://i.ibb.co/3M25jJq/Promo-Instagram-Instagram-reels.jpg')] "
 >
 	<div class="backdrop-blur-sm">
-		<LogForm {populateStores} />
+		<LoginForm {populateStores} />
 	</div>
 </div>
 
