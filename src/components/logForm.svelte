@@ -22,9 +22,6 @@
 	myForm.validate();
 
 	$: noError = $myForm.hasError('username.required') || $myForm.hasError('password.required');
-	// $: disabled = error ? true : false;
-	// console.loginResponse(noError);
-	//Validates the user input when button is clicked
 
 	const validate = () => {
 		if (!noError) {
