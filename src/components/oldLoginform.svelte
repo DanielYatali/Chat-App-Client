@@ -3,7 +3,6 @@
 
 	import { form, field } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
-	import { get } from 'svelte/store';
 	import currentUser from '../stores/userDataStore';
 
 	import { endpoints } from '$lib/endpoints';

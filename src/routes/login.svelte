@@ -3,7 +3,7 @@
 
 	import { onMount } from 'svelte';
 
-	import Login from '../components/loginForm.svelte';
+	import LogForm from '../components/logform.svelte';
 	import PersonalDetails from '../stores/personalDetailsStore';
 	import InterestDetails from '../stores/interestStore';
 	import UniversityDetails from '../stores/universityDetailsStore';
@@ -112,9 +112,11 @@
 	});
 </script>
 
-<div class="form-container">
-	<Login {populateStores} />
+<!-- <div class="form-container"> -->
+<div>
+	<LogForm {populateStores} />
 </div>
 
+<!-- </div> -->
 <style>
 </style>
