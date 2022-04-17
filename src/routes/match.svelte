@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { endpoints } from '$lib/endpoints.js';
 
-	export let profiles = [
+	let profiles = [
 		{
 			first_name: 'No',
 			last_name: 'Matches',
@@ -25,6 +25,7 @@
 			}
 		}
 	];
+	let match = true;
 	// export let error;
 	let numProfiles;
 
@@ -39,40 +40,46 @@
 			return;
 		}
 		//Get user matches
-		const rawResponse = await fetch(endpoints.database + user.id + '/match', {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				Authorization: 'JWT ' + user.token,
-				'Content-Type': 'application/json'
+		try {
+			const rawResponse = await fetch(endpoints.database + user.id + '/match', {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: 'JWT ' + user.token,
+					'Content-Type': 'application/json'
+				}
+			});
+			profiles = await rawResponse.json(); //get all matches
+			numProfiles = profiles.length;
+			if (profiles.hasOwnProperty('message') || numProfiles == 0) {
+				// console.log('ho');
+				// goto('/no-matches');
+				match = false;
+			} else {
+				match = true;
+				console.log(profiles);
+				console.log(JSON.stringify(profiles[0].first_name));
+				console.log(JSON.stringify(numProfiles));
+				let user_ids = [];
+				for (let i = 0; i < numProfiles; i++) {
+					user_ids[i] = { id: profiles[i].user_id };
+				}
+				//Create a chat with each match
+				const response = await fetch(endpoints.database + '/conversation/create/matches', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: 'JWT ' + user.token,
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(user_ids)
+				});
+				let data = await response.json();
+				console.log(data);
 			}
-		});
-		profiles = await rawResponse.json(); //get all matches
-		numProfiles = profiles.length;
-		// if (profiles.hasOwnProperty('message') || numProfiles == 0) {
-		// 	console.log('ho');
-		// 	goto('/no-matches');
-		// 	return;
-		// }
-		console.log(profiles);
-		console.log(JSON.stringify(profiles[0].first_name));
-		console.log(JSON.stringify(numProfiles));
-		let user_ids = [];
-		for (let i = 0; i < numProfiles; i++) {
-			user_ids[i] = { id: profiles[i].user_id };
+		} catch (error) {
+			console.error(error);
 		}
-		//Create a chat with each match
-		const response = await fetch(endpoints.database + '/conversation/create/matches', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				Authorization: 'JWT ' + user.token,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(user_ids)
-		});
-		let data = await response.json();
-		console.log(data);
 	});
 
 	let currentProfile = 0;
@@ -112,7 +119,8 @@
 <svelte:head>
 	<style>
 		body {
-			background-image: url('https://source.unsplash.com/1L71sPT5XKc');
+			/* background-image: url('https://source.unsplash.com/1L71sPT5XKc'); */
+			background-color: gray;
 		}
 	</style>
 </svelte:head>
@@ -163,7 +171,7 @@
 			 C255,161.018,253.42,157.202,250.606,154.389z"
 		/>
 	</svg>
-	<MatchProfile profile={profiles[currentProfile]} />
+	<MatchProfile profile={profiles[currentProfile]} {match} />
 	<!-- Pin to top right corner -->
 	<!-- <div class="absolute top-0 right-0 h-12 w-18 p-4">
 			 <button class="js-change-theme focus:outline-none">🌙</button>

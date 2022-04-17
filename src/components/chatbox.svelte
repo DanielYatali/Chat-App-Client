@@ -76,14 +76,18 @@
 </script>
 
 {#if currentChat.conversation_id == -1}
-	<div style="height: 90vh;" class="flex p:2 sm:p-2 h-full items-center text-center">
+	<div style="height: 90vh;" class="flex sm:p-2 h-full items-center text-center">
 		<h1>Choose your Chat</h1>
 	</div>
 	<!-- content here -->
 {:else}
-	<!-- else content here -->
-	<div style="height: 90vh;" class="flex-1 p:2 sm:p-2 flex flex-col w-full h-full">
-		<div class="flex mx-4 sm:items-center justify-between py-3 border-b-2 border-gray-200">
+	<div
+		style="height: 90vh;"
+		class="flex-1 flex flex-col w-screen sm:w-full h-full bg-gray-200 mt-2.5 rounded-lg"
+	>
+		<div
+			class="rounded-t-lg flex px-6 sm:items-center justify-between py-3 border-b-2 border-gray-200 nav-blue-bg"
+		>
 			<div class="relative flex items-center space-x-4">
 				<div class="relative">
 					<img src={currentChat.photo} alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full" />
@@ -91,11 +95,11 @@
 				<div class="flex flex-col leading-tight">
 					<div class="sm:text-xl md:2xl: mt-1 flex items-center">
 						{#if currentChat.private}
-							<span class="text-gray-700 mr-3">{currentChat.receiver_username}</span>
+							<span class="text-gray-300 mr-3">{currentChat.receiver_username}</span>
 							<!-- content here -->
 						{:else}
 							<!-- else content here -->
-							<span class="text-gray-700 mr-3">{receiver}</span>
+							<span class="text-gray-300 mr-3">{receiver}</span>
 						{/if}
 					</div>
 					<!-- <span class="text-lg text-gray-600">Junior Developer</span> -->
@@ -105,7 +109,7 @@
 				<!-- search button -->
 				<button
 					type="button"
-					class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+					class="cream-msg inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -125,11 +129,11 @@
 				<!-- heart -->
 				<button
 					type="button"
-					class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+					class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none cream-msg"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
+						fill=""
 						viewBox="0 0 24 24"
 						stroke="currentColor"
 						class="h-6 w-6"
@@ -145,7 +149,7 @@
 				<!-- bell -->
 				<button
 					type="button"
-					class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+					class="cream-msg inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +171,7 @@
 		<!-- chat box -->
 		<div
 			id="messages"
-			class="h-screen flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+			class="h-screen flex flex-col space-y-4 p-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
 		>
 			{#if allChatMessages[receiver]}
 				<div class="chat-message">
@@ -187,7 +191,7 @@
 								<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
 									<div>
 										<div
-											class="px-4 py-2 rounded-full flex rounded-bl-none cream-msg text-gray-600"
+											class="px-4 py-2 rounded-full flex rounded-bl-none nav-blue-bg text-gray-100"
 										>
 											<div class="flex flex-col">
 												<span class="mr-3">{message.sender_name}</span>
@@ -232,9 +236,9 @@
 					bind:value={message}
 					type="text"
 					placeholder="Write your message!"
-					class="border-none w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-l-full py-3"
+					class="border-none w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-300 rounded-l-full py-3"
 				/>
-				<div class="relative right-0 items-center inset-y-0 sm:flex bg-gray-200 rounded-r-full">
+				<div class="relative right-0 items-center inset-y-0 sm:flex bg-gray-300 rounded-r-full">
 					<button
 						type="button"
 						class="hidden sm:inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
@@ -282,7 +286,7 @@
 					<button
 						on:click={handleSubmit}
 						type="button"
-						class="inline-flex items-center justify-center rounded-full px-3 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+						class="inline-flex items-center justify-center rounded-full px-3 py-3 transition duration-500 ease-in-out text-white bg-blue-600 hover:bg-blue-400 focus:outline-none"
 					>
 						<!-- <span class="font-bold">Send</span> -->
 						<svg
@@ -301,87 +305,16 @@
 		</div>
 	</div>
 {/if}
-<!-- <h1>Sender : {sender.username} Receiver: {receiver}</h1>
-	<div class="container flex flex-col bg-red-500 p-10">
-		<div class="h-96 bg-orange-400 overflow-y-scroll">
-			{#each messages as message}
-			{#if message.sender_name == sender.username}
-			<div class="flex flex-col message sent">
-				<p class="flex text-gray-500">{message.sender_name}</p>
-				<p>{message.content}</p>
-				<p class="float-right">{message.datetime}</p>
-			</div>
-			{:else}
-			<div class="flex flex-col message received">
-				<p class="flex text-gray-500">{message.sender_name}</p>
-				<p>{message.content}</p>
-				<p class="float-right">{message.datetime}</p>
-			</div>
-			{/if}
-			{/each}
-		</div>
-		
-		<div class="relative text-gray-700">
-			<input
-			bind:value={message}
-			class="w-full h-10 pl-3 pr-8 text-base placeholder-gray-500 border rounded-lg focus:shadow-outline"
-			type="text"
-			placeholder="Enter Text"
-			/>
-			
-			<button
-			on:click={handleSubmit}
-			class="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-600 rounded-r-lg hover:bg-indigo-500 focus:bg-indigo-700"
-			>Submit</button
-			>
-		</div>
-	</div> -->
-<!-- 
-	<style>
-		
-		.message:after {
-			position: absolute;
-			content: '';
-			width: 0;
-			height: 0;
-			border-style: solid;
-		}
-		
-		.message.received {
-			background: #fff;
-			border-radius: 0px 5px 5px 5px;
-			float: left;
-		}
-		
-		.message.received .metadata {
-			padding: 0 0 0 16px;
-		}
-		
-		.message.received:after {
-			border-width: 0px 10px 10px 0;
-			border-color: transparent #fff transparent transparent;
-			top: 0;
-			left: -10px;
-		}
-		
-		.message.sent {
-			background: #e1ffc7;
-			border-radius: 5px 0px 5px 5px;
-			float: right;
-		}
-		
-		.message.sent:after {
-			border-width: 0px 0 10px 10px;
-			border-color: transparent transparent transparent #e1ffc7;
-			top: 0;
-		right: -10px;
-	}
-</style> -->
 
-<!-- <script>
-	const el = document.getElementById('messages');
-	el.scrollTop = el.scrollHeight;
-</script> -->
+<svelte:head>
+	<style>
+		body {
+			--tw-bg-opacity: 1;
+			background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+		}
+	</style>
+</svelte:head>
+
 <style>
 	.message {
 		color: #000;

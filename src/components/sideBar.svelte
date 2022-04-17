@@ -27,7 +27,7 @@
 
 <div
 	style="min-height: 94vh"
-	class="w-64 absolute sm:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden sm:flex"
+	class="w-64 absolute sm:relative nav-blue-bg shadow md:h-full flex-col justify-between hidden sm:flex"
 >
 	<div class="px-8">
 		<div class="mt-8 text-center">
@@ -38,7 +38,7 @@
 				<!-- content here -->
 
 				<li
-					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
+					class="flex w-full justify-between text-gold hover:text-yellow-400 cursor-pointer items-center mb-6"
 				>
 					<button
 						on:click={() => changeQuestions({ question })}

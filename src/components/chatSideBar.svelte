@@ -26,18 +26,18 @@
 
 <div
 	style="height: 94vh"
-	class="w-72 md:w-80 absolute sm:relative bg-gray-300 shadow md:h-full flex-col justify-between hidden sm:flex"
+	class="w-72 md:w-80 absolute sm:relative cream-msg shadow md:h-full flex-col justify-between hidden sm:flex"
 >
-	<div style="height: 92vh" class=" bg-gray-300 p-2">
+	<div style="height: 92vh" class=" cream-msg p-2">
 		<div
-			class="h-full max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg"
+			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-hidden md:max-w-lg"
 		>
 			<div class="md:flex">
 				<div class="w-full p-4">
 					<div class="relative">
 						<input
 							type="text"
-							class="w-full h-12 rounded focus:outline-none px-3 focus:shadow-md"
+							class=" w-full h-12 rounded-lg focus:outline-none px-3 focus:shadow-md text-gray-100"
 							placeholder="Search..."
 						/> <i class="fa fa-search absolute right-3 top-4 text-gray-300" />
 					</div>
@@ -80,9 +80,9 @@
 			alt="cross"
 		/>
 	</button>
-	<div style="height: 92vh" class=" bg-gray-300 p-2">
+	<div style="height: 92vh" class="nav-blue-bg p-2">
 		<div
-			class="h-full max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg overflow-hidden md:max-w-lg"
+			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-hidden md:max-w-lg"
 		>
 			<div class="md:flex">
 				<div class="w-full p-4">

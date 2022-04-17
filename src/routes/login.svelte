@@ -80,7 +80,7 @@
 					method: 'GET',
 					headers: {
 						Accept: 'application/json',
-						Authorization: localStorage.getItem('access_token'),
+						Authorization: 'JWT ' + localStorage.getItem('access_token'),
 						'Content-Type': 'application/json'
 					}
 				});
@@ -91,12 +91,13 @@
 				}
 				CurrentUser.set({
 					id: UserInfo.user_id,
-					username: $CurrentUser.username,
+					username: UserInfo.username,
 					token: localStorage.getItem('access_token'),
 					loggedIn: true,
 					photo: UserInfo.photo,
 					newUser: newUser
 				});
+				console.log(localStorage.getItem('access_token'));
 				//Since user has no information send them to answer questions
 				if (newUser) {
 					$CurrentUser.photo = 'https://i.ibb.co/f0rM4vQ/person.jpg';
@@ -113,10 +114,14 @@
 </script>
 
 <!-- <div class="form-container"> -->
-<div>
-	<LogForm {populateStores} />
+<div
+	style="height: 100vh; width:100vw"
+	class="md:bg-[url('https://i.imgur.com/0CUwW1S.jpeg')] bg-cover bg-no-repeat  bg-[url('https://i.ibb.co/3M25jJq/Promo-Instagram-Instagram-reels.jpg')] "
+>
+	<div class="backdrop-blur-sm">
+		<LogForm {populateStores} />
+	</div>
 </div>
 
-<!-- </div> -->
 <style>
 </style>

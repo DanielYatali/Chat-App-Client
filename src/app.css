@@ -26,10 +26,39 @@
 }
 
 .blue-msg {
-	background-color: #446a97;
+	background-color: #4488bf;
+
+	/* background-color: #446a97; */
+	/* @apply bg-blue-600; */
 }
+
 .cream-msg {
-	background-color: #dce7cc;
+	/* background-color: #ca9703; */
+	background-color: #8b6508;
+	color: white;
+	/* background-color: #dce7cc; */
+	/* @apply bg-gray-800; */
+}
+.yellow-bg {
+	background-color: #f4f2c9;
+}
+.nav-blue-bg {
+	/* background-color: #265999; */
+	background-color: #000033;
+}
+
+.text-gold {
+	color: #ca9703;
+}
+.text-light-gold {
+	color: #d5ad36;
+}
+
+.yellow-text {
+	color: #f4f2c9;
+}
+.input-gold {
+	@apply focus:ring-yellow-600 focus:border-yellow-600;
 }
 button:disabled,
 button[disabled] {

@@ -4,8 +4,9 @@
 	import SocialIcon from '../components/socialIcon.svelte';
 	import CurrentChat from '../stores/currentChatStore';
 	import CurrentUser from '../stores/userDataStore';
+	import Nav from '../components/nav.svelte';
 	export let profile;
-
+	export let match;
 	let user = {};
 	CurrentUser.subscribe((value) => {
 		user = value;
@@ -69,109 +70,122 @@
 	};
 </script>
 
-<div
-	id="profile"
-	class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0"
->
-	<div class="p-4 md:p-12 text-center lg:text-left">
-		<!-- Image for mobile view-->
-		<div
-			class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-			style="background-image: url({profile.photo})"
-		/>
+{#if match}
+	<!-- content here -->
+	<div
+		id="profile"
+		class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl nav-blue-bg opacity-75 mx-6 lg:mx-0"
+	>
+		<div class="p-4 md:p-12 text-center lg:text-left">
+			<!-- Image for mobile view-->
+			<div
+				class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center border-2 border-yellow-600"
+				style="background-image: url({profile.photo})"
+			/>
 
-		<h1 class="text-3xl font-bold pt-8 lg:pt-0">
-			{profile.first_name}
-			{profile.last_name}
-			<br />
-			{profile.username}
-		</h1>
-		<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25" />
+			<h1 class="text-3xl font-bold pt-8 lg:pt-0 text-gold">
+				{profile.first_name}
+				{profile.last_name}
+			</h1>
+			<p class="text-light-gold">
+				@{profile.username}
+			</p>
+			<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-yellow-500 opacity-25" />
 
-		<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
-			<svg
-				class="h-4 fill-current text-green-700 pr-4"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				><path
-					d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
-				/></svg
+			<p
+				class="pt-4 text-base text-yellow-100 font-bold flex items-center justify-center lg:justify-start"
 			>
-			{profile.university}
-		</p>
-		<p
-			class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
-		>
-			<svg
-				class="h-4 fill-current text-green-700 pr-4"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				><path
-					d="M.3013 17.6146c-.1299-.3387-.5228-1.5119-.1337-2.4314l9.8273 5.6738a.329.329 0 0 0 .3299 0L24 12.9616v2.3542l-13.8401 7.9906-9.8586-5.6918zM.1911 8.9628c-.2882.8769.0149 2.0581.1236 2.4261l9.8452 5.6841L24 9.0823V6.7275L10.3248 14.623a.329.329 0 0 1-.3299 0L.1911 8.9628zm13.1698-1.9361c-.1819.1113-.4394.0015-.4852-.2064l-.2805-1.1336-2.1254-.1752a.33.33 0 0 1-.1378-.6145l5.5782-3.2207-1.7021-.9826L.6979 8.4935l9.462 5.463 13.5104-7.8004-4.401-2.5407-5.9084 3.4113zm-.1821-1.7286.2321.938 5.1984-3.0014-2.0395-1.1775-4.994 2.8834 1.3099.108a.3302.3302 0 0 1 .2931.2495zM24 9.845l-13.6752 7.8954a.329.329 0 0 1-.3299 0L.1678 12.0667c-.3891.919.003 2.0914.1332 2.4311l9.8589 5.692L24 12.1993V9.845z"
-				/></svg
+				<svg
+					class="h-4 fill-current text-gold pr-4"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					><path
+						d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
+					/></svg
+				>
+				{profile.university}
+			</p>
+			<p
+				class="pt-2 text-gray-200 text-sm lg:text-sm flex items-center justify-center lg:justify-start"
 			>
-			{profile.faculty}
-		</p>
-		<p
-			class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
-		>
-			<svg
-				class="h-4 fill-current text-green-700 pr-4"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				><path
-					d="M.3013 17.6146c-.1299-.3387-.5228-1.5119-.1337-2.4314l9.8273 5.6738a.329.329 0 0 0 .3299 0L24 12.9616v2.3542l-13.8401 7.9906-9.8586-5.6918zM.1911 8.9628c-.2882.8769.0149 2.0581.1236 2.4261l9.8452 5.6841L24 9.0823V6.7275L10.3248 14.623a.329.329 0 0 1-.3299 0L.1911 8.9628zm13.1698-1.9361c-.1819.1113-.4394.0015-.4852-.2064l-.2805-1.1336-2.1254-.1752a.33.33 0 0 1-.1378-.6145l5.5782-3.2207-1.7021-.9826L.6979 8.4935l9.462 5.463 13.5104-7.8004-4.401-2.5407-5.9084 3.4113zm-.1821-1.7286.2321.938 5.1984-3.0014-2.0395-1.1775-4.994 2.8834 1.3099.108a.3302.3302 0 0 1 .2931.2495zM24 9.845l-13.6752 7.8954a.329.329 0 0 1-.3299 0L.1678 12.0667c-.3891.919.003 2.0914.1332 2.4311l9.8589 5.692L24 12.1993V9.845z"
-				/></svg
+				<svg
+					class="h-4 fill-current text-gold pr-4"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					><path
+						d="M.3013 17.6146c-.1299-.3387-.5228-1.5119-.1337-2.4314l9.8273 5.6738a.329.329 0 0 0 .3299 0L24 12.9616v2.3542l-13.8401 7.9906-9.8586-5.6918zM.1911 8.9628c-.2882.8769.0149 2.0581.1236 2.4261l9.8452 5.6841L24 9.0823V6.7275L10.3248 14.623a.329.329 0 0 1-.3299 0L.1911 8.9628zm13.1698-1.9361c-.1819.1113-.4394.0015-.4852-.2064l-.2805-1.1336-2.1254-.1752a.33.33 0 0 1-.1378-.6145l5.5782-3.2207-1.7021-.9826L.6979 8.4935l9.462 5.463 13.5104-7.8004-4.401-2.5407-5.9084 3.4113zm-.1821-1.7286.2321.938 5.1984-3.0014-2.0395-1.1775-4.994 2.8834 1.3099.108a.3302.3302 0 0 1 .2931.2495zM24 9.845l-13.6752 7.8954a.329.329 0 0 1-.3299 0L.1678 12.0667c-.3891.919.003 2.0914.1332 2.4311l9.8589 5.692L24 12.1993V9.845z"
+					/></svg
+				>
+				{profile.faculty}
+			</p>
+			<p
+				class="pt-2 text-gray-100 text-sm lg:text-sm flex items-center justify-center lg:justify-start"
 			>
-			{profile.major}
-		</p>
-		<p
-			class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
-		>
-			<svg
-				class="h-4 fill-current text-green-700 pr-4"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 20 20"
-				><path
-					d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"
-				/></svg
+				<svg
+					class="h-4 fill-current text-gold pr-4"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					><path
+						d="M.3013 17.6146c-.1299-.3387-.5228-1.5119-.1337-2.4314l9.8273 5.6738a.329.329 0 0 0 .3299 0L24 12.9616v2.3542l-13.8401 7.9906-9.8586-5.6918zM.1911 8.9628c-.2882.8769.0149 2.0581.1236 2.4261l9.8452 5.6841L24 9.0823V6.7275L10.3248 14.623a.329.329 0 0 1-.3299 0L.1911 8.9628zm13.1698-1.9361c-.1819.1113-.4394.0015-.4852-.2064l-.2805-1.1336-2.1254-.1752a.33.33 0 0 1-.1378-.6145l5.5782-3.2207-1.7021-.9826L.6979 8.4935l9.462 5.463 13.5104-7.8004-4.401-2.5407-5.9084 3.4113zm-.1821-1.7286.2321.938 5.1984-3.0014-2.0395-1.1775-4.994 2.8834 1.3099.108a.3302.3302 0 0 1 .2931.2495zM24 9.845l-13.6752 7.8954a.329.329 0 0 1-.3299 0L.1678 12.0667c-.3891.919.003 2.0914.1332 2.4311l9.8589 5.692L24 12.1993V9.845z"
+					/></svg
+				>
+				{profile.major}
+			</p>
+			<p
+				class="pt-2 text-gray-200 text-sm lg:text-sm flex items-center justify-center lg:justify-start"
 			>
-			{profile.country}, {profile.city}
-		</p>
-		<p class="pt-8 text-sm">
-			{profile.about}
-			Totally optional short description about yourself, what you do and so on.
-		</p>
+				<svg
+					class="h-4 fill-current text-gold pr-4"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 20 20"
+					><path
+						d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"
+					/></svg
+				>
+				{profile.country}, {profile.city}
+			</p>
+			<p
+				class="text-yellow-600 pt-4 text-base font-bold flex items-center justify-center lg:justify-start"
+			>
+				About
+			</p>
+			<p class="pt-2 text-sm text-gray-100">
+				{profile.about}
+			</p>
 
-		<div class="pt-12 pb-8">
-			<button
-				on:click|preventDefault={message}
-				class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full"
+			<div class="pt-12 pb-8">
+				<button
+					on:click|preventDefault={message}
+					class="cream-msg hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full"
+				>
+					Message
+				</button>
+			</div>
+
+			<div
+				class="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between"
 			>
-				Message
-			</button>
+				{#each socialIcons as icon}
+					<!-- content here -->
+					<SocialIcon name={icon.name} href={icon.href} path={icon.path} />
+				{/each}
+			</div>
+
+			<!-- Use https://simpleicons.org/ to find the svg for your preferred product -->
 		</div>
-
-		<div
-			class="mt-6 pb-16 lg:pb-0 w-4/5 lg:w-full mx-auto flex flex-wrap items-center justify-between"
-		>
-			{#each socialIcons as icon}
-				<!-- content here -->
-				<SocialIcon name={icon.name} href={icon.href} path={icon.path} />
-			{/each}
-		</div>
-
-		<!-- Use https://simpleicons.org/ to find the svg for your preferred product -->
 	</div>
-</div>
 
-<!--Img Col-->
-<div class="w-full lg:w-2/5">
-	<!-- Big profile image for side bar (desktop) -->
-	<img
-		src={profile.photo}
-		class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
-		alt="profile-pic"
-	/>
-	<!-- Image from: http://unsplash.com/photos/MP0IUfwrn0A -->
-</div>
+	<!--Img Col-->
+	<div class="w-full lg:w-2/5 p-5">
+		<!-- Big profile image for side bar (desktop) -->
+		<img
+			src={profile.photo}
+			class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block fill-transparent"
+			alt="profile-pic"
+		/>
+		<!-- Image from: http://unsplash.com/photos/MP0IUfwrn0A -->
+	</div>
+{:else}
+	<h1 class="text-8xl">NO MATCHES SORRY :(</h1>
+	<!-- {goto('/no-matches')} -->
+{/if}

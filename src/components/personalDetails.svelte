@@ -116,7 +116,7 @@
 											name="first-name"
 											id="first-name"
 											autocomplete="given-name"
-											class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											class="mt-1 input-gold block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 										/>
 										{#if $myForm.hasError('firstName.required')}
 											<div class="text-red-500 text-xs">Firstname is required</div>
@@ -133,7 +133,7 @@
 											name="last-name"
 											id="last-name"
 											autocomplete="family-name"
-											class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											class="mt-1 input-gold block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 										/>{#if $myForm.hasError('lastName.required')}
 											<div class="text-red-500 text-xs">Last name is required</div>
 										{/if}
@@ -149,7 +149,7 @@
 											name="email-address"
 											id="email-address"
 											autocomplete="email"
-											class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											class="mt-1 input-gold block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 										/>{#if $myForm.hasError('email.required')}
 											<div class="text-red-500 text-xs">Email is required</div>
 										{/if}
@@ -164,7 +164,7 @@
 											id="country"
 											name="country"
 											autocomplete="country-name"
-											class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+											class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none input-gold sm:text-sm"
 										>
 											<option>United States</option>
 											<option>Canada</option>
@@ -182,7 +182,7 @@
 											name="city"
 											id="city"
 											autocomplete="address-level2"
-											class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+											class="mt-1 input-gold block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 										/>{#if $myForm.hasError('city.required')}
 											<div class="text-red-500 text-xs">City is required</div>
 										{/if}
@@ -224,7 +224,7 @@
 										id="about"
 										name="about"
 										rows="3"
-										class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+										class="shadow-sm input-gold mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
 										placeholder="you@example.com"
 									/>{#if $myForm.hasError('about.required')}
 										<div class="text-red-500 text-xs">About is required</div>

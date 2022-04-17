@@ -23,8 +23,13 @@
 </script>
 
 <div class="mt-8 text-center">
-	<img src={user.photo} alt="" class="w-24 h-24 m-auto rounded-full object-cover lg:w-28 lg:h-28" />
-	<h5 class="mt-4 text-xl font-semibold text-gray-600 lg:block">
+	<img
+		src={user.photo}
+		alt=""
+		class="border-4 border-yellow-500 w-24 h-24 m-auto rounded-full object-cover lg:w-28 lg:h-28"
+	/>
+
+	<h5 class="mt-4 text-xl font-semibold text-gold lg:block">
 		{userInfo.firstName}
 		&nbsp;
 		{userInfo.lastName}

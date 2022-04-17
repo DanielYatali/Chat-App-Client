@@ -1,9 +1,5 @@
 <script>
-	import { get } from 'svelte/store';
-
-	import CurrentQuestion from '../stores/questionStore';
 	import SideBarUser from '../components/sideBarUser.svelte';
-	import currentUser from '../stores/userDataStore';
 	import { goto } from '$app/navigation';
 	let openSideBar = 'flex';
 	let closeSideBar = 'none';
@@ -19,19 +15,21 @@
 			sideBarMove = 'translateX(-260px)';
 		}
 	}
-	const options = ['Chat', 'Questions'];
+	const options = ['Chat', 'Questions', 'Matches'];
 	const changeOption = (option) => {
 		if (option == 'Chat') {
 			goto('/chat');
-		} else {
+		} else if (option == 'Questions') {
 			goto('/questions');
+		} else {
+			goto('/match');
 		}
 	};
 </script>
 
 <div
 	style="min-height: 94vh"
-	class="w-64 absolute md:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden md:flex"
+	class="w-64 absolute md:relative nav-blue-bg shadow md:h-full flex-col justify-between hidden md:flex"
 >
 	<div class="px-8">
 		<div class="mt-8 text-center">
@@ -42,7 +40,7 @@
 				<!-- content here -->
 
 				<li
-					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
+					class="flex w-full justify-between text-gold hover:text-yellow-400 cursor-pointer items-center mb-6"
 				>
 					<button
 						on:click|preventDefault={() => changeOption(option)}
@@ -74,14 +72,14 @@
 </div>
 <div
 	style="min-height:120vh;  transform: {sideBarMove};"
-	class="w-64 z-40 absolute bg-gray-800 shadow md:h-full flex-col justify-between md:hidden transition duration-150 ease-in-out"
+	class="w-64 z-40 absolute nav-blue-bg shadow md:h-full flex-col justify-between md:hidden transition duration-150 ease-in-out"
 	id="mobile-nav"
 >
 	<button
 		style="display: {openSideBar};"
 		aria-label="toggle sidebar"
 		id="openSideBar"
-		class="h-10 w-10 bg-gray-800 absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 rounded focus:ring-gray-800"
+		class="h-10 w-10 nav-blue-bg absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 rounded focus:ring-gray-800"
 		on:click={sidebarHandler}
 	>
 		<img
@@ -93,7 +91,7 @@
 		style="display: {closeSideBar};"
 		aria-label="Close sidebar"
 		id="closeSideBar"
-		class="h-10 w-10 bg-gray-800 absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer text-white"
+		class="h-10 w-10 nav-blue-bg absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer text-white"
 		on:click={sidebarHandler}
 	>
 		<img
@@ -109,7 +107,7 @@
 			{#each options as option}
 				<!-- content here -->
 				<li
-					class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6"
+					class="flex w-full justify-between text-gold hover:text-yellow-400 cursor-pointer items-center mb-6"
 				>
 					<button
 						on:click|preventDefault={() => changeOption(option)}

@@ -8,6 +8,9 @@
 	import { goto } from '$app/navigation';
 
 	onMount(() => {
+		if ($CurrentUser.newUser) {
+			goto('/questions');
+		}
 		if (!$CurrentUser.loggedIn) {
 			goto('/login');
 		}

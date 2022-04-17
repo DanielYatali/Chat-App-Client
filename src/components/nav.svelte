@@ -16,7 +16,7 @@
 	});
 </script>
 
-<nav class="bg-gray-800">
+<nav class="nav-blue-bg">
 	<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
 		<div class="relative flex items-center justify-between h-16">
 			<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -80,7 +80,7 @@
 					<div class="flex space-x-4">
 						<a
 							href="/"
-							class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+							class="cream-msg text-white px-3 py-2 rounded-md text-sm font-medium"
 							aria-current="page">Home</a
 						>
 						<a
@@ -88,22 +88,16 @@
 							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
 							aria-current="page">Dashboard</a
 						>
-						<!-- <a
-							href="/signup"
-							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-							>SignUp</a
-						>
-
-						<a
-							href="/login"
-							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-							>Login</a
-						> -->
 
 						<a
 							href="/about"
 							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
 							>About</a
+						>
+						<a
+							href="/chat"
+							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+							>Chat</a
 						>
 					</div>
 				</div>
@@ -145,7 +139,12 @@
 							aria-haspopup="true"
 						>
 							<span class="sr-only">Open user menu</span>
-							<img on:click={toggleUserMenu} class="h-8 w-8 rounded-full" src={user.photo} alt="" />
+							<img
+								on:click={toggleUserMenu}
+								class="h-8 w-8 rounded-full border-2 border-yellow-500"
+								src={user.photo}
+								alt=""
+							/>
 						</button>
 					</div>
 
@@ -158,7 +157,7 @@
 						tabindex="-1"
 					>
 						<a
-							href="/profile"
+							href="#"
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
@@ -172,7 +171,11 @@
 							id="user-menu-item-1">Settings</a
 						>
 						<a
-							href="/signout"
+							href="#"
+							on:click|preventDefault={() => {
+								localStorage.removeItem('access_token');
+								goto('/');
+							}}
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
@@ -190,7 +193,7 @@
 			<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 			<a
 				href="/"
-				class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+				class="cream-msg text-white block px-3 py-2 rounded-md text-base font-medium"
 				aria-current="page">Home</a
 			>
 			<a
@@ -203,6 +206,11 @@
 				href="/about"
 				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
 				>About</a
+			>
+			<a
+				href="/chat"
+				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+				>Chat</a
 			>
 		</div>
 	</div>

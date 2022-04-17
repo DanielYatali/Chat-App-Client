@@ -52,17 +52,25 @@
 </script>
 
 <!-- <h1>Welcome {sender.username}</h1> -->
-<div class="">
+<div class="cream-msg h-screen w-screen">
 	<div class="sticky top-0 w-full">
 		<Nav />
 	</div>
 
 	<div class="flex flex-no-wrap">
-		<div class="fixed z-10">
+		<div class="fixed z-10 pt-2 sm:p-0.5 rounded-lg">
 			<ChatSideBar {chats} />
 		</div>
-		<div class="mt-0 sm:mt-4 sm:ml-72 md:ml-80 container mx-auto md:w-4/5 w-11/12 px-1">
+		<div class="mt-0 sm:mt-0 sm:ml-72 md:ml-80 sm:pr-3  lg:pl-0 container md:w-4/5 w-11/12">
 			<ChatBox chats={chatConversationNames} />
 		</div>
 	</div>
 </div>
+
+<svelte:head>
+	<style>
+		body {
+			/* background-color: #8b6508; */
+		}
+	</style>
+</svelte:head>

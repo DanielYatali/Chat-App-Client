@@ -71,42 +71,22 @@
 				photo: chat.photo
 			});
 		}
-		// Messages.set(allChatMessages[chat.conversation_name]);
-		//Fix this
-		// (async () => {
-		// 	const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
-		// 		method: 'GET',
-		// 		headers: {
-		// 			Accept: 'application/json',
-		// 			Authorization: 'JWT ' + user.token,
-		// 			'Content-Type': 'application/json'
-		// 		}
-		// 	});
-		// 	let messages = await rawResponse.json();
-		// 	lastMessage = messages[0];
-		// 	Messages.set(messages);
-		// 	allChatMessages = get(ChatMessages);
-		// 	allChatMessages[chat.conversation_name] = messages;
-		// 	ChatMessages.set(allChatMessages);
-
-		// 	console.log(messages);
-		// })();
 	};
 </script>
 
 <li
 	on:click={showChat}
-	class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition"
+	class="flex justify-between items-center bg-white mt-2 p-2 hover:shadow-lg rounded cursor-pointer transition nav-blue-bg"
 >
 	<div class="flex ml-2">
 		<img src={chat.photo} class="rounded-full w-10 h-10" alt="profile-img" />
 		<div class="flex flex-col ml-2">
 			{#if chat.private}
-				<span class="font-medium text-black">{chat.username}</span>
+				<span class="font-medium text-light-gold">{chat.username}</span>
 			{:else}
-				<span class="font-medium text-black">{chat.conversation_name}</span>
+				<span class="font-medium text-gold">{chat.conversation_name}</span>
 			{/if}
-			<span class="text-sm text-gray-400 truncate w-32">
+			<span class="text-sm text-gray-300 truncate w-32">
 				{#if lastMessage}
 					{lastMessage['content']}
 				{/if}
@@ -115,12 +95,10 @@
 		</div>
 	</div>
 	<div class="flex flex-col items-center">
-		<span class="text-gray-300">
+		<span class="text-gray-300 text-xs">
 			{#if lastMessage}
-				<!-- content here -->
 				{lastMessage['datetime']}
 			{/if}
-			<!-- {chat.lastMessage.time} -->
 		</span>
 		{#if unReadChatMessages.hasOwnProperty(chat.conversation_name)}
 			<div class="bg-green-400 w-5 h-5 rounded-full">

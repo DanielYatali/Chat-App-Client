@@ -10,48 +10,51 @@
 
 	//Creating form fields
 	const username = field('username', '', [required()], {
-		validateOnChange: false
+		validateOnChange: true
 	});
 	const password = field('password', '', [required()], {
-		validateOnChange: false
+		validateOnChange: true
 	});
 
 	const myForm = form(username, password);
 	let error = false;
 	let loginResponse = {};
+	myForm.validate();
 
 	$: noError = $myForm.hasError('username.required') || $myForm.hasError('password.required');
+	// $: disabled = error ? true : false;
+	// console.loginResponse(noError);
 	//Validates the user input when button is clicked
 
 	const validate = () => {
-		myForm.validate();
 		if (!noError) {
 			const user = {
 				username: $username.value,
 				password: $password.value
 			};
 			(async () => {
-				const rawResponse = await fetch(endpoints.database + '/auth', {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(user)
-				});
-				const content = await rawResponse.json();
-				loginResponse = content;
-				localStorage.setItem('access_token', 'JWT ' + loginResponse.access_token);
-				if (loginResponse.hasOwnProperty('access_token')) {
-					const Response = await fetch(endpoints.database + '/user/info', {
-						method: 'GET',
+				try {
+					const rawResponse = await fetch(endpoints.database + '/auth', {
+						method: 'POST',
 						headers: {
 							Accept: 'application/json',
-							Authorization: 'JWT ' + loginResponse.access_token,
 							'Content-Type': 'application/json'
-						}
+						},
+						body: JSON.stringify(user)
 					});
-					try {
+					const content = await rawResponse.json();
+					loginResponse = content;
+					localStorage.setItem('access_token', loginResponse.access_token);
+					if (loginResponse.hasOwnProperty('access_token')) {
+						const Response = await fetch(endpoints.database + '/user/info', {
+							method: 'GET',
+							headers: {
+								Accept: 'application/json',
+								Authorization: 'JWT ' + loginResponse.access_token,
+								'Content-Type': 'application/json'
+							}
+						});
+						// try {
 						let response = await Response.json();
 						let UserInfo = response;
 						let newUser = false;
@@ -76,11 +79,11 @@
 							populateStores(UserInfo);
 							goto('/dashboard');
 						}
-					} catch (error) {
-						console.error(error);
+					} else {
+						error = true;
 					}
-				} else {
-					error = true;
+				} catch (error) {
+					console.error(error);
 				}
 			})();
 		}
@@ -88,10 +91,9 @@
 	$: name = $username.value == '' ? 'Log in' : 'Hey ' + $username.value;
 </script>
 
-<div class="flex items-center min-h-screen bg-gray-300">
-	<div
-		class="bg-gradient-to-t from-gray-400 to-gray-900 flex-1 h-full max-w-4xl mx-auto rounded-xl shadow-md shadow-gray-500"
-	>
+<!-- <p>{noError}</p> -->
+<div class="flex items-center min-h-screen">
+	<div class="nav-blue-bg flex-1 h-full max-w-4xl mx-auto rounded-lg shadow-md shadow-gray-500">
 		<div class="flex flex-col md:flex-row">
 			<div style="" class="h-44 md:h-auto md:w-1/2">
 				<img
@@ -105,7 +107,7 @@
 					<div class="flex justify-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-20 h-20 text-blue-600"
+							class="w-20 h-20 text-gold"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -149,8 +151,8 @@
 						{/if}
 					</div>
 					<button
+						disabled={noError}
 						class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-gray-50 transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-						href="#"
 						on:click|preventDefault={validate}
 					>
 						Log in
@@ -160,8 +162,8 @@
 					{/if}
 
 					<div class="mt-4 text-center">
-						<p class="text-sm">
-							Don't have an account yet? <a href="/signup" class="text-blue-700 hover:underline">
+						<p class="text-sm text-light-gold">
+							Don't have an account yet? <a href="/signup" class="text-gold hover:underline">
 								Sign up.</a
 							>
 						</p>
@@ -174,12 +176,5 @@
 
 <svelte:head>
 	<style>
-		body {
-			/* padding-left: 0.5em;
-			padding-right: 0.5em;
-            --tw-bg-opacity: 1;
-            background-color: rgb(209 213 219 / var(--tw-bg-opacity)); */
-}
-		}
 	</style>
 </svelte:head>
