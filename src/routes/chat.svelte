@@ -25,15 +25,15 @@
 		sender = get(currentUser);
 		//Fetches all user conversations
 		(async () => {
-			const rawResponse = await fetch(endpoints.database + 'user/conversations/user_info', {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					Authorization: 'JWT ' + sender.token,
-					'Content-Type': 'application/json'
-				}
-			});
 			try {
+				const rawResponse = await fetch(endpoints.database + 'user/conversations/user_info', {
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						Authorization: 'JWT ' + sender.token,
+						'Content-Type': 'application/json'
+					}
+				});
 				let reponse = await rawResponse.json();
 				chats = reponse;
 				let currentChatMessages = {};

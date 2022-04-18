@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 
 	import PersonalDetails from '../stores/personalDetailsStore';
 	import CurrentUser from '../stores/userDataStore';
@@ -34,5 +33,4 @@
 		&nbsp;
 		{userInfo.lastName}
 	</h5>
-	<!-- <span class="hidden text-gray-400 lg:block">Admin</span> -->
 </div>

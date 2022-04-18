@@ -66,16 +66,16 @@
 		};
 		console.log(JSON.stringify(userDetails));
 		(async () => {
-			const rawResponse = await fetch(endpoints.database + '/user/create/update_info', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					Authorization: 'JWT ' + $currentUser.token,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(userDetails)
-			});
 			try {
+				const rawResponse = await fetch(endpoints.database + '/user/create/update_info', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: 'JWT ' + $currentUser.token,
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(userDetails)
+				});
 				let response = await rawResponse.json();
 				console.log(response);
 				$currentUser.newUser = false;
@@ -153,8 +153,8 @@
 									>Update</button
 								>
 							{/if}
-							<!-- disabled={!noError} -->
 							<button
+								disabled={!noError}
 								on:click|preventDefault={() => saveAllInfo('match')}
 								type="submit"
 								class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

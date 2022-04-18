@@ -10,6 +10,7 @@
 	import SocialDetails from '../stores/socialStore';
 	import { goto } from '$app/navigation';
 	import CurrentUser from '../stores/userDataStore';
+	import QuestionFormValidator from '../stores/questionFormValidator';
 
 	const setPersonalDetails = (UserInfo) => {
 		PersonalDetails.set({
@@ -88,6 +89,10 @@
 				let newUser = false;
 				if (UserInfo.hasOwnProperty('message')) {
 					newUser = true;
+				} else {
+					$QuestionFormValidator.interests = true;
+					$QuestionFormValidator.personalDetails = true;
+					$QuestionFormValidator.universityDetails = true;
 				}
 				CurrentUser.set({
 					id: UserInfo.user_id,

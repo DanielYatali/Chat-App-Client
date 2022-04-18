@@ -166,6 +166,7 @@
 											autocomplete="country-name"
 											class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none input-gold sm:text-sm"
 										>
+											<option>Trinidad and Tobago</option>
 											<option>United States</option>
 											<option>Canada</option>
 											<option>Mexico</option>

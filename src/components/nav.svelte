@@ -1,7 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
 	import currentUser from '../stores/userDataStore';
-	import CurrentUser from '../stores/userDataStore';
 	let mainMenu = 'none';
 	let userMenu = 'none';
 	const toggleMainMenu = () => {

@@ -128,7 +128,7 @@
 
 	<svg
 		on:click|preventDefault={next}
-		class="fill-current text-gray-400 absolute  h-32 sm:h-40  md:h-52 right-0  hover:text-gray-600 z-10 cursor-pointer"
+		class="fill-current text-gold absolute  h-20 right-0  hover:text-yellow-400 z-10 cursor-pointer"
 		version="1.1"
 		id="Layer_1"
 		xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@
 	</svg>
 	<svg
 		on:click|preventDefault={previous}
-		class="fill-current text-gray-400 rotate-180 absolute  h-32 sm:h-40  md:h-52 left-0 hover:text-gray-600 z-10 cursor-pointer"
+		class="fill-current text-gold rotate-180 absolute  h-20 left-0 hover:text-yellow-400 z-10 cursor-pointer"
 		version="1.1"
 		id="Layer_1"
 		xmlns="http://www.w3.org/2000/svg"

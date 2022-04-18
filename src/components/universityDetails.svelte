@@ -7,9 +7,7 @@
 	import CurrentQuestion from '../stores/questionStore';
 	import UniversityDetails from '../stores/universityDetailsStore';
 	import { endpoints } from '$lib/endpoints';
-	//defaulted values
 	let faculties = [];
-	//defaulted values
 	let majors = [];
 
 	let universityName = field('universityName', '', [required()], {

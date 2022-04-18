@@ -4,7 +4,7 @@
 	import { form, field } from 'svelte-forms';
 	import { required } from 'svelte-forms/validators';
 	import currentUser from '../stores/userDataStore';
-
+	import QuestionFormValidator from '../stores/questionFormValidator';
 	import { endpoints } from '$lib/endpoints';
 	export let populateStores;
 
@@ -51,12 +51,15 @@
 								'Content-Type': 'application/json'
 							}
 						});
-						// try {
 						let response = await Response.json();
 						let UserInfo = response;
 						let newUser = false;
 						if (UserInfo.hasOwnProperty('message')) {
 							newUser = true;
+						} else {
+							$QuestionFormValidator.interests = true;
+							$QuestionFormValidator.personalDetails = true;
+							$QuestionFormValidator.universityDetails = true;
 						}
 
 						console.log(response);
