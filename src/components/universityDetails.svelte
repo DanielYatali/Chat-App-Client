@@ -6,17 +6,11 @@
 	import { get } from 'svelte/store';
 	import CurrentQuestion from '../stores/questionStore';
 	import UniversityDetails from '../stores/universityDetailsStore';
-	const faculties = [
-		'Engineering',
-		'Food & Agriculture',
-		'Humanities & Education',
-		'Law',
-		'Medical Sciences',
-		'Science & Technology',
-		'Social Sciences',
-		'Sport'
-	];
-	const majors = ['Computer Science', 'Information Technology', 'Mathematics'];
+	import { endpoints } from '$lib/endpoints';
+	//defaulted values
+	let faculties = [];
+	//defaulted values
+	let majors = [];
 
 	let universityName = field('universityName', '', [required()], {
 		validateOnChange: true
@@ -32,11 +26,54 @@
 		$myForm.hasError('universityName.required') ||
 		$myForm.hasError('faculty.required') ||
 		$myForm.hasError('major.required');
+
+	//This function is fired whenever choosenFaculty changes populating the "major" drop box
+	const getMajors = async () => {
+		if ($choosenFaculty.value == '') {
+			return;
+		}
+		try {
+			const rawResponse = await fetch(
+				endpoints.database + '/get/by_name/' + $choosenFaculty.value + '/majors',
+				{
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+			let response = await rawResponse.json();
+			majors = response;
+			console.log(majors);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	onMount(() => {
 		let universityDetails = get(UniversityDetails);
 		$universityName.value = universityDetails.universityName;
 		$choosenFaculty.value = universityDetails.faculty;
 		$major.value = universityDetails.major;
+		getMajors();
+
+		(async () => {
+			try {
+				const rawResponse = await fetch(endpoints.database + '/get/faculties', {
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+					}
+				});
+				let response = await rawResponse.json();
+				faculties = response;
+				console.log(faculties);
+			} catch (error) {
+				console.error(error);
+			}
+		})();
 	});
 	const saveInfo = () => {
 		UniversityDetails.set({
@@ -112,16 +149,19 @@
 								{#each faculties as faculty}
 									<div class="flex items-center">
 										<input
-											on:click={() => ($choosenFaculty.value = faculty)}
-											checked={$choosenFaculty.value == faculty}
-											value={faculty}
+											on:click={() => {
+												$choosenFaculty.value = faculty.faculty_name;
+												getMajors();
+											}}
+											checked={$choosenFaculty.value == faculty.faculty_name}
+											value={faculty.faculty_name}
 											id="faculty"
 											name="faculty"
 											type="radio"
 											class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
 										/>
 										<label for="faculty" class="ml-3 block text-sm font-medium text-gray-700">
-											{faculty}
+											{faculty.faculty_name}
 										</label>
 									</div>
 								{/each}
@@ -160,7 +200,7 @@
 										class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 									>
 										{#each majors as major}
-											<option>{major}</option>
+											<option>{major.major_name}</option>
 										{/each}
 									</select>
 									{#if $myForm.hasError('major.required')}

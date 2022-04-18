@@ -1,13 +1,7 @@
+<!-- This component is used to render frame of the side bar with chats -->
 <script>
 	import ChatList from './chatList.svelte';
 	export let chats = [];
-	// chats = [
-	// 	{
-	// 		conversation_id: 0,
-	// 		conversation_name: 'no chats',
-	// 		private: false
-	// 	}
-	// ];
 	let openSideBar = 'flex';
 	let closeSideBar = 'none';
 	let sideBarMove = 'translateX(-288px)';
@@ -24,13 +18,14 @@
 	}
 </script>
 
+<!-- Desktop view -->
 <div
 	style="height: 94vh"
 	class="w-72 md:w-80 absolute sm:relative cream-msg shadow md:h-full flex-col justify-between hidden sm:flex"
 >
 	<div style="height: 92vh" class=" cream-msg p-2">
 		<div
-			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-hidden md:max-w-lg"
+			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-y-scroll md:max-w-lg"
 		>
 			<div class="md:flex">
 				<div class="w-full p-4">
@@ -51,6 +46,7 @@
 		</div>
 	</div>
 </div>
+<!-- mobile view -->
 <div
 	style="min-height:120vh;  transform: {sideBarMove};"
 	class="w-72 z-40 absolute bg-gray-300 shadow md:h-full flex-col justify-between sm:hidden transition duration-150 ease-in-out"
@@ -82,7 +78,7 @@
 	</button>
 	<div style="height: 92vh" class="nav-blue-bg p-2">
 		<div
-			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-hidden md:max-w-lg"
+			class="h-full max-w-md mx-auto nav-blue-bg shadow-lg rounded-lg overflow-y-scroll md:max-w-lg"
 		>
 			<div class="md:flex">
 				<div class="w-full p-4">

@@ -59,9 +59,7 @@
 </script>
 
 <div class="flex items-center min-h-screen">
-	<div
-		class="bg-gradient-to-t from-gray-400 to-gray-900 flex-1 h-full max-w-4xl mx-auto rounded-lg shadow-md shadow-gray-500"
-	>
+	<div class="nav-blue-bg flex-1 h-full max-w-4xl mx-auto rounded-lg shadow-md shadow-gray-500">
 		<div class="flex flex-col md:flex-row">
 			<div style="" class="h-44 md:h-auto md:w-1/2">
 				<img
@@ -75,7 +73,7 @@
 					<div class="flex justify-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-20 h-20 text-blue-600"
+							class="w-20 h-20 text-gold"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -149,7 +147,7 @@
 					</div>
 					<button
 						disabled={error}
-						class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-gray-50 transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+						class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-gray-50 transition-colors duration-150 cream-msg border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
 						on:click|preventDefault={validate}
 					>
 						Sign Up
@@ -159,8 +157,8 @@
 					{/if}
 
 					<div class="mt-4 text-center">
-						<p class="text-sm">
-							Already have an account? <a href="/login" class="text-blue-700 hover:underline">
+						<p class="text-sm text-light-gold">
+							Already have an account? <a href="/login" class="text-gold hover:underline">
 								Log in.</a
 							>
 						</p>

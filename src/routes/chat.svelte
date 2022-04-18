@@ -1,3 +1,4 @@
+<!-- chat route -->
 <script>
 	import currentUser from '../stores/userDataStore.js';
 	import ChatSideBar from '../components/chatSideBar.svelte';
@@ -14,10 +15,15 @@
 	let chatConversationNames = [];
 	let chats = [];
 	onMount(() => {
+		if ($currentUser.newUser) {
+			goto('/questions');
+			return;
+		}
 		if (!$currentUser.loggedIn) {
 			goto('/login');
 		}
 		sender = get(currentUser);
+		//Fetches all user conversations
 		(async () => {
 			const rawResponse = await fetch(endpoints.database + 'user/conversations/user_info', {
 				method: 'GET',
@@ -40,18 +46,13 @@
 				}
 				socket.emit('join-room', chatConversationNames);
 				console.log(chatConversationNames);
-				// console.log(reponse);
 			} catch (error) {
 				console.error(error);
 			}
 		})();
-		// if (!sender.login) {
-		// 	goto('/no-auth');
-		// }
 	});
 </script>
 
-<!-- <h1>Welcome {sender.username}</h1> -->
 <div class="cream-msg h-screen w-screen">
 	<div class="sticky top-0 w-full">
 		<Nav />
@@ -68,9 +69,5 @@
 </div>
 
 <svelte:head>
-	<style>
-		body {
-			/* background-color: #8b6508; */
-		}
-	</style>
+	<title>Chat</title>
 </svelte:head>

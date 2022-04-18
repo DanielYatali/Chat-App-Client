@@ -1,5 +1,5 @@
+<!-- This component is used to render chat messages for a specfic chat, all messages appear in this component -->
 <script>
-	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte/internal';
 	import { socket } from '$lib/socket';
 	import CurrentChat from '../stores/currentChatStore';
@@ -14,24 +14,28 @@
 	let message;
 	let allChatMessages = {};
 
+	//get current user
 	CurrentUser.subscribe((value) => {
 		sender = value;
 	});
-	ChatMessages.subscribe((value) => {
-		allChatMessages = value;
-	});
+	//get the current chat if it changes
 	CurrentChat.subscribe((value) => {
 		currentChat = value;
 		receiver = currentChat.conversation_name;
 	});
+	//get current chat messages if it changes
+	ChatMessages.subscribe((value) => {
+		allChatMessages = value;
+	});
+
+	//get intial data from stores
 	onMount(() => {
 		allChatMessages = get(ChatMessages);
 		sender = get(CurrentUser);
 		currentChat = get(CurrentChat);
 		receiver = currentChat.conversation_name;
 	});
-	let id;
-	//Remember to implent this in an onLoad function
+	//Intial socket connect
 	socket.on('connection', () => {
 		console.log('Inital id' + socket.id);
 	});
@@ -41,10 +45,13 @@
 		console.log(receiver);
 		socket.emit('join-room', chats);
 	});
+
+	//Receive message from server
 	socket.on('receive-message', (msg) => {
 		console.log('this' + msg);
 		if (receiver != msg.conversation_name) {
 			let unReadMessages = get(UnReadChatMessages);
+			//id message received is for another chat append that message to that chats message list
 			if (unReadMessages.hasOwnProperty(msg.conversation_name)) {
 				unReadMessages[msg.conversation_name]++;
 			} else {
@@ -57,10 +64,12 @@
 		ChatMessages.set(allChatMessages);
 	});
 
+	//Send message
 	const handleSubmit = () => {
 		let today = new Date();
 		let time = today.getHours() + ':' + today.getMinutes();
 		console.log(receiver);
+		//Emit send message to server if the message has content
 		if (message != '')
 			socket.emit('send-message', {
 				conversation_name: receiver,
@@ -75,12 +84,13 @@
 	};
 </script>
 
+<!-- If no chat is selected display choose your chat in the chat area -->
 {#if currentChat.conversation_id == -1}
 	<div style="height: 90vh;" class="flex sm:p-2 h-full items-center text-center">
 		<h1>Choose your Chat</h1>
 	</div>
-	<!-- content here -->
 {:else}
+	<!-- display chat box and current messages -->
 	<div
 		style="height: 90vh;"
 		class="flex-1 flex flex-col w-screen sm:w-full h-full bg-gray-200 mt-2.5 rounded-lg"
@@ -96,13 +106,10 @@
 					<div class="sm:text-xl md:2xl: mt-1 flex items-center">
 						{#if currentChat.private}
 							<span class="text-gray-300 mr-3">{currentChat.receiver_username}</span>
-							<!-- content here -->
 						{:else}
-							<!-- else content here -->
 							<span class="text-gray-300 mr-3">{receiver}</span>
 						{/if}
 					</div>
-					<!-- <span class="text-lg text-gray-600">Junior Developer</span> -->
 				</div>
 			</div>
 			<div class="md:flex items-center space-x-2 hidden">
@@ -175,11 +182,13 @@
 		>
 			{#if allChatMessages[receiver]}
 				<div class="chat-message">
+					<!-- Loops through array of messages for current chat and displays them -->
 					{#each allChatMessages[receiver] as message}
+						<!-- User message -->
 						{#if message.sender_name == sender.username}
 							<div class="flex items-end justify-end">
 								<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-									<div class="px-4 py-2 rounded-full flex rounded-br-none blue-msg text-white">
+									<div class="px-4 py-2 rounded-full flex rounded-br-none cream-msg text-white">
 										<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
 										<span class="time pb-2">{message.datetime}</span>
 									</div>
@@ -187,6 +196,7 @@
 								<img src={sender.photo} alt="My profile" class="w-10 h-10 rounded-full order-2" />
 							</div>
 						{:else}
+							<!-- not a the user message -->
 							<div class="flex items-end">
 								<div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
 									<div>
@@ -194,7 +204,7 @@
 											class="px-4 py-2 rounded-full flex rounded-bl-none nav-blue-bg text-gray-100"
 										>
 											<div class="flex flex-col">
-												<span class="mr-3">{message.sender_name}</span>
+												<span class="mr-3 text-gold">{message.sender_name}</span>
 												<pre class="pt-1 mr-3 max-w-xs">{message.content}</pre>
 											</div>
 											<span class=" time pb-2">{message.datetime}</span>
@@ -232,6 +242,7 @@
 						</svg>
 					</button>
 				</span>
+				<!-- bind entered text to variable message -->
 				<input
 					bind:value={message}
 					type="text"
@@ -288,7 +299,6 @@
 						type="button"
 						class="inline-flex items-center justify-center rounded-full px-3 py-3 transition duration-500 ease-in-out text-white bg-blue-600 hover:bg-blue-400 focus:outline-none"
 					>
-						<!-- <span class="font-bold">Send</span> -->
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 17"
@@ -316,19 +326,6 @@
 </svelte:head>
 
 <style>
-	.message {
-		color: #000;
-		clear: both;
-		line-height: 18px;
-		font-size: 15px;
-		padding: 8px;
-		position: relative;
-		margin: 8px 0;
-		width: 25%;
-		max-width: 85%;
-		word-wrap: break-word;
-		/* z-index: -1; */
-	}
 	.scrollbar-w-2::-webkit-scrollbar {
 		width: 0.25rem;
 		height: 0.25rem;
@@ -363,5 +360,6 @@
 		word-wrap: break-word; /* IE 5.5-7 */
 		white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
 		white-space: pre-wrap; /* current browsers */
+		max-width: 14rem;
 	}
 </style>

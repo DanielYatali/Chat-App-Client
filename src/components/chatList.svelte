@@ -1,6 +1,6 @@
+<!-- This component renders the user's current chats to the left side bar -->
 <script>
 	import CurrentChat from '../stores/currentChatStore';
-	import Messages from '../stores/messagesStore';
 	import CurrentUser from '../stores/userDataStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
@@ -12,9 +12,13 @@
 	let allChatMessages = {};
 	let lastMessage = { content: '', datetime: '' };
 	let unReadChatMessages = {};
+
+	//Get any unread messages
 	UnReadChatMessages.subscribe((value) => {
 		unReadChatMessages = value;
 	});
+
+	//Get updates chat messages used to get the last message which is render at the button of each chat list
 	ChatMessages.subscribe((value) => {
 		let messages = value[chat.conversation_name];
 		lastMessage = messages[messages.length - 1];
@@ -24,6 +28,8 @@
 	onMount(() => {
 		lastMessage = { content: '', datetime: '' };
 		user = get(CurrentUser);
+		//Fetch user chat messages
+		//Fetches all messages for the chat that is clicked
 		(async () => {
 			const rawResponse = await fetch(endpoints.database + chat.conversation_id + '/messages', {
 				method: 'GET',
@@ -37,19 +43,22 @@
 			if (messages != []) {
 				lastMessage = messages[messages.length - 1];
 			}
+			//Updates the all messages store
 			allChatMessages = get(ChatMessages);
 			allChatMessages[chat.conversation_name] = messages;
 			ChatMessages.set(allChatMessages);
-
-			// console.log(messages);
 		})();
 	});
+
 	const showChat = () => {
 		unReadChatMessages = get(UnReadChatMessages);
+		//If the current chat had unread messages then remove them so it no longer displays the green icon with message count
 		if (unReadChatMessages.hasOwnProperty(chat.conversation_name)) {
 			delete unReadChatMessages[chat.conversation_name];
 			UnReadChatMessages.set(unReadChatMessages);
 		}
+		//For private chat which is limited to 2 users
+		//The conversation name would change to the other user's name
 		if (chat.private) {
 			CurrentChat.set({
 				conversation_id: chat.conversation_id,
@@ -60,6 +69,8 @@
 				bot: chat.bot,
 				photo: chat.photo
 			});
+			//For group chat which can have more than 2 users
+			//Conversation name would be the conversation name
 		} else {
 			CurrentChat.set({
 				conversation_id: chat.conversation_id,
@@ -81,8 +92,10 @@
 	<div class="flex ml-2">
 		<img src={chat.photo} class="rounded-full w-10 h-10" alt="profile-img" />
 		<div class="flex flex-col ml-2">
+			<!-- for private chat -->
 			{#if chat.private}
 				<span class="font-medium text-light-gold">{chat.username}</span>
+				<!-- for group chat -->
 			{:else}
 				<span class="font-medium text-gold">{chat.conversation_name}</span>
 			{/if}
@@ -90,7 +103,6 @@
 				{#if lastMessage}
 					{lastMessage['content']}
 				{/if}
-				<!-- {chat.lastMessage.content} -->
 			</span>
 		</div>
 	</div>
@@ -100,13 +112,13 @@
 				{lastMessage['datetime']}
 			{/if}
 		</span>
+		<!-- display unread messages -->
 		{#if unReadChatMessages.hasOwnProperty(chat.conversation_name)}
 			<div class="bg-green-400 w-5 h-5 rounded-full">
 				<p class="text-center fa fa text-sm text-gray-200">
 					{unReadChatMessages[chat.conversation_name]}
 				</p>
 			</div>
-			<!-- content here -->
 		{/if}
 	</div>
 </li>

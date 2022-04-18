@@ -44,3 +44,6 @@
 		{/if}
 	</div>
 </div>
+<svelte:head>
+	<title>Questions</title>
+</svelte:head>

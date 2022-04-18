@@ -1,3 +1,4 @@
+<!-- This component is used to render the dashboard sidebar, the chat sidebar could have been reused here, however due to limited time it was done like this -->
 <script>
 	import SideBarUser from '../components/sideBarUser.svelte';
 	import { goto } from '$app/navigation';
@@ -15,6 +16,7 @@
 			sideBarMove = 'translateX(-260px)';
 		}
 	}
+	//Options
 	const options = ['Chat', 'Questions', 'Matches'];
 	const changeOption = (option) => {
 		if (option == 'Chat') {
@@ -27,6 +29,7 @@
 	};
 </script>
 
+<!-- Desktop view -->
 <div
 	style="min-height: 94vh"
 	class="w-64 absolute md:relative nav-blue-bg shadow md:h-full flex-col justify-between hidden md:flex"
@@ -37,8 +40,6 @@
 		</div>
 		<ul class="mt-12">
 			{#each options as option}
-				<!-- content here -->
-
 				<li
 					class="flex w-full justify-between text-gold hover:text-yellow-400 cursor-pointer items-center mb-6"
 				>
@@ -70,6 +71,8 @@
 		</ul>
 	</div>
 </div>
+
+<!-- Mobile view -->
 <div
 	style="min-height:120vh;  transform: {sideBarMove};"
 	class="w-64 z-40 absolute nav-blue-bg shadow md:h-full flex-col justify-between md:hidden transition duration-150 ease-in-out"
@@ -105,7 +108,6 @@
 		</div>
 		<ul class="mt-12">
 			{#each options as option}
-				<!-- content here -->
 				<li
 					class="flex w-full justify-between text-gold hover:text-yellow-400 cursor-pointer items-center mb-6"
 				>

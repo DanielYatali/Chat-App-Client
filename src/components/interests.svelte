@@ -1,3 +1,4 @@
+<!-- This component renders the interst form on the question page -->
 <script>
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';

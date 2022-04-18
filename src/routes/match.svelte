@@ -26,17 +26,16 @@
 		}
 	];
 	let match = true;
-	// export let error;
 	let numProfiles;
 
 	onMount(async () => {
 		const user = get(currentUser);
-		if (!user.loggedIn) {
-			goto('/no-auth');
-			return;
-		}
 		if (user.newUser) {
 			goto('/questions');
+			return;
+		}
+		if (!user.loggedIn) {
+			goto('/login');
 			return;
 		}
 		//Get user matches
@@ -52,8 +51,6 @@
 			profiles = await rawResponse.json(); //get all matches
 			numProfiles = profiles.length;
 			if (profiles.hasOwnProperty('message') || numProfiles == 0) {
-				// console.log('ho');
-				// goto('/no-matches');
 				match = false;
 			} else {
 				match = true;
@@ -117,15 +114,14 @@
 </script>
 
 <svelte:head>
+	<title>Match</title>
 	<style>
 		body {
-			/* background-image: url('https://source.unsplash.com/1L71sPT5XKc'); */
 			background-color: gray;
 		}
 	</style>
 </svelte:head>
 
-<!-- else content here -->
 <div />
 <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
 	<!--Main Col-->
@@ -172,8 +168,4 @@
 		/>
 	</svg>
 	<MatchProfile profile={profiles[currentProfile]} {match} />
-	<!-- Pin to top right corner -->
-	<!-- <div class="absolute top-0 right-0 h-12 w-18 p-4">
-			 <button class="js-change-theme focus:outline-none">🌙</button>
-		 </div> -->
 </div>

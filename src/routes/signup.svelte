@@ -10,6 +10,9 @@
 		<SignupForm />
 	</div>
 </div>
+<svelte:head>
+	<title>SignUp</title>
+</svelte:head>
 
 <style>
 </style>

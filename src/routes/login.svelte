@@ -123,5 +123,9 @@
 	</div>
 </div>
 
+<svelte:head>
+	<title>Login</title>
+</svelte:head>
+
 <style>
 </style>

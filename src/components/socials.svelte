@@ -16,26 +16,7 @@
 		$QuestionFormValidator.interests &&
 		$QuestionFormValidator.personalDetails &&
 		$QuestionFormValidator.universityDetails;
-	// let currentSocials = {
-	// 	Instagram: '',
-	// 	'Tik Tok': '',
-	// 	GitHub: '',
-	// 	Twitter: '',
-	// 	Steam: '',
-	// 	Discord: '',
-	// 	Whatsapp: ''
-	// };
-	// onMount(() => {
-	// 	user = get(currentUser);
-	// 	let socialDeatails = get(SocialDetails);
-	// 	currentSocials.Instagram = socialDeatails.instagram;
-	// 	currentSocials['Tik Tok'] = socialDeatails.instagram;
-	// 	currentSocials. = socialDeatails.snapChat;
-	// 	currentSocials.Twitter = socialDeatails.twitter;
-	// 	currentSocials.Steam = socialDeatails.steam;
-	// 	currentSocials.Discord = socialDeatails.discord;
-	// 	currentSocials.Whatsapp = socialDeatails.whatsapp;
-	// });
+
 	const saveInfo = () => {
 		SocialDetails.set({
 			Instagram: $SocialDetails.Instagram,
