@@ -37,18 +37,18 @@
 	});
 	//Intial socket connect
 	socket.on('connection', () => {
-		console.log('Inital id' + socket.id);
+		// console.log('Inital id' + socket.id);
 	});
 	//On reconnect join all rooms
 	socket.on('connect', () => {
-		console.log('Connect Id' + socket.id);
-		console.log(receiver);
+		// console.log('Connect Id' + socket.id);
+		// console.log(receiver);
 		socket.emit('join-room', chats);
 	});
 
 	//Receive message from server
 	socket.on('receive-message', (msg) => {
-		console.log('this' + msg);
+		// console.log('this' + msg);
 		if (receiver != msg.conversation_name) {
 			let unReadMessages = get(UnReadChatMessages);
 			//id message received is for another chat append that message to that chats message list
@@ -57,7 +57,7 @@
 			} else {
 				unReadMessages[msg.conversation_name] = 1;
 			}
-			console.log(unReadMessages);
+			// console.log(unReadMessages);
 			UnReadChatMessages.set(unReadMessages);
 		}
 		allChatMessages[msg.conversation_name] = [...allChatMessages[msg.conversation_name], msg];

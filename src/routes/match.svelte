@@ -54,9 +54,9 @@
 				match = false;
 			} else {
 				match = true;
-				console.log(profiles);
-				console.log(JSON.stringify(profiles[0].first_name));
-				console.log(JSON.stringify(numProfiles));
+				// console.log(profiles);
+				// console.log(JSON.stringify(profiles[0].first_name));
+				// console.log(JSON.stringify(numProfiles));
 				let user_ids = [];
 				for (let i = 0; i < numProfiles; i++) {
 					user_ids[i] = { id: profiles[i].user_id };
@@ -72,7 +72,7 @@
 					body: JSON.stringify(user_ids)
 				});
 				let data = await response.json();
-				console.log(data);
+				// console.log(data);
 			}
 		} catch (error) {
 			console.error(error);

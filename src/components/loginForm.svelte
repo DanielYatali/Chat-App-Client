@@ -62,7 +62,7 @@
 							$QuestionFormValidator.universityDetails = true;
 						}
 
-						console.log(response);
+						// console.log(response);
 						currentUser.set({
 							id: UserInfo.user_id,
 							username: user.username,

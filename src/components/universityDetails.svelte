@@ -43,7 +43,7 @@
 			);
 			let response = await rawResponse.json();
 			majors = response;
-			console.log(majors);
+			// console.log(majors);
 		} catch (error) {
 			console.error(error);
 		}

@@ -64,7 +64,7 @@
 				}
 			}
 		};
-		console.log(JSON.stringify(userDetails));
+		// console.log(JSON.stringify(userDetails));
 		(async () => {
 			try {
 				const rawResponse = await fetch(endpoints.database + '/user/create/update_info', {
@@ -77,7 +77,7 @@
 					body: JSON.stringify(userDetails)
 				});
 				let response = await rawResponse.json();
-				console.log(response);
+				// console.log(response);
 				$currentUser.newUser = false;
 				goto(`/${route}`);
 			} catch (error) {

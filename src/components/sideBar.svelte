@@ -21,7 +21,7 @@
 
 	const changeQuestions = (question) => {
 		CurrentQuestion.set(question.question);
-		console.log(get(CurrentQuestion));
+		// console.log(get(CurrentQuestion));
 	};
 </script>
 

@@ -45,7 +45,7 @@
 					ChatMessages.set(currentChatMessages);
 				}
 				socket.emit('join-room', chatConversationNames);
-				console.log(chatConversationNames);
+				// console.log(chatConversationNames);
 			} catch (error) {
 				console.error(error);
 			}

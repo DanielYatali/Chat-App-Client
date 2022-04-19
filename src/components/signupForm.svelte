@@ -44,7 +44,7 @@
 						body: JSON.stringify(user)
 					});
 					const content = await rawResponse.json();
-					console.log(content);
+					// console.log(content);
 					signupResponse = content;
 					if (signupResponse == 'user created') {
 						goto('/login');
