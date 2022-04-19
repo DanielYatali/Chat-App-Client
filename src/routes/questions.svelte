@@ -21,7 +21,7 @@
 	});
 </script>
 
-<div class="sticky top-0 w-full">
+<div class="sticky top-0 w-full z-40">
 	<Nav />
 </div>
 

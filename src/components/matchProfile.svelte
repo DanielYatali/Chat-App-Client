@@ -60,7 +60,7 @@
 					bot: conversation.bot,
 					photo: profile.photo
 				});
-				console.log(conversation);
+				// console.log(conversation);
 				goto('/chat');
 			} catch (error) {
 				console.error(error);

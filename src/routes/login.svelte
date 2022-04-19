@@ -102,7 +102,7 @@
 					photo: UserInfo.photo,
 					newUser: newUser
 				});
-				console.log(localStorage.getItem('access_token'));
+				// console.log(localStorage.getItem('access_token'));
 				//Since user has no information send them to answer questions
 				if (newUser) {
 					$CurrentUser.photo = 'https://i.ibb.co/f0rM4vQ/person.jpg';
