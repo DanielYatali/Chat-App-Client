@@ -28,7 +28,7 @@
 
 	const sports = ['Football', 'Cricket', 'Basketball', 'Tennis', 'I do not like sports'];
 	const movies = ['Horror', 'Action', 'Romance', 'Comedy', 'Animation'];
-	const musics = ['Dance Hall', 'Soca', 'Pop', 'Classical', 'I hate music'];
+	const musics = ['DanceHall', 'Soca', 'Pop', 'Classical', 'I hate music'];
 	onMount(() => {
 		let interestDetails = get(InterestDetails);
 		$stayingIn.value = interestDetails.stayingIn;
