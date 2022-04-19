@@ -11,11 +11,11 @@
 	//If new user then send the user to fill out the question
 	//if login and not a new user then they can access the dashboard
 	onMount(() => {
-		if ($CurrentUser.newUser) {
-			goto('/questions');
-		}
 		if (!$CurrentUser.loggedIn) {
 			goto('/login');
+		}
+		if ($CurrentUser.newUser) {
+			goto('/questions');
 		}
 	});
 </script>

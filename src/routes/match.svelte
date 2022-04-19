@@ -30,12 +30,12 @@
 
 	onMount(async () => {
 		const user = get(currentUser);
-		if (user.newUser) {
-			goto('/questions');
-			return;
-		}
 		if (!user.loggedIn) {
 			goto('/login');
+			return;
+		}
+		if (user.newUser) {
+			goto('/questions');
 			return;
 		}
 		//Get user matches

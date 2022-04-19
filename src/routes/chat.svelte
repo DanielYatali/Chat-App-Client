@@ -15,12 +15,12 @@
 	let chatConversationNames = [];
 	let chats = [];
 	onMount(() => {
+		if (!$currentUser.loggedIn) {
+			goto('/login');
+		}
 		if ($currentUser.newUser) {
 			goto('/questions');
 			return;
-		}
-		if (!$currentUser.loggedIn) {
-			goto('/login');
 		}
 		sender = get(currentUser);
 		//Fetches all user conversations

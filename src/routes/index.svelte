@@ -2,7 +2,7 @@
 	import Nav from '../components/nav.svelte';
 </script>
 
-<div>
+<div class="sticky top-0 z-40">
 	<Nav />
 </div>
 <div class="cream-msg h-2" />
