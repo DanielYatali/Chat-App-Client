@@ -155,30 +155,28 @@
 						aria-labelledby="user-menu-button"
 						tabindex="-1"
 					>
-						<a
-							href="#"
+						<button
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
-							id="user-menu-item-0">Your Profile</a
+							id="user-menu-item-0">Your Profile</button
 						>
-						<a
-							href="#"
+						<button
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
-							id="user-menu-item-1">Settings</a
+							id="user-menu-item-1">Settings</button
 						>
-						<a
-							href="#"
-							on:click|preventDefault={() => {
+						<button
+							on:click={() => {
 								localStorage.removeItem('access_token');
+								window.location.reload();
 								goto('/');
 							}}
 							class="block px-4 py-2 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
-							id="user-menu-item-2">Sign out</a
+							id="user-menu-item-2">Sign out</button
 						>
 					</div>
 				</div>
