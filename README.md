@@ -30,7 +30,7 @@ npm run dev
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
-### Note: This application will not be functional by itself as it requires its servers https://github.com/DanielYatali/Chat-App-Servers
+#### Note: This application will not be functional by itself as it requires its servers https://github.com/DanielYatali/Chat-App-Servers
 
 #### What We Learnt:
 * `Svelte`
