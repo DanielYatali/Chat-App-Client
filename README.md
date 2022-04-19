@@ -1,36 +1,28 @@
-![image](https://user-images.githubusercontent.com/70588497/164083595-de3160f7-6115-49c3-a1e1-a44921a30db0.png) | ![image](https://user-images.githubusercontent.com/70588497/164083875-7605068b-8356-42ed-8af0-360dd8795dbc.png)
+# [MyElinking](https://myelinking.vercel.app/)
+
+![image](https://user-images.githubusercontent.com/70588497/164083595-de3160f7-6115-49c3-a1e1-a44921a30db0.png) 
+
+### Team:
+
+* #### [Daniel Yatali](https://github.com/DanielYatali)
+
+* #### [Aadarsh Pooran](https://github.com/AadarshPooran)
+
+* #### [Jarod Esareesingh](https://github.com/Updeus)
+
+* #### [Saeed Badree](https://github.com/SaeedBadree)
 
 
+myelinking was founded in 2022, by four individuals seeking to create a platform to overcome the communication 
+boundaries for online university students. The platform allows students to openly communicate with each other 
+based on similar interests and hobbies. Additionally, students are automatically placed within a faculty chat,
+to get acclimated with the other students of their own faculty. The myelinking platform was designed with the 
+intention of being sleek, modern, innovative and user-friendly. 
 
 
-Client for Chat-App-Servers
+## How to Run
 
-Currently in development
-
-
-
-
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm init svelte@next
-
-# create a new project in my-app
-npm init svelte@next my-app
-```
-
-> Note: the `@next` is temporary
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
@@ -38,16 +30,19 @@ npm run dev
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
+### Note: This application will not be functional by itself as it requires its servers https://github.com/DanielYatali/Chat-App-Servers
 
-## Building
+#### What We Learnt:
+* `Svelte`
+* `Flask, SqlAlchemy`
+* `Node.js`
+* `Socket.io`
+* `Rest Api`
 
-To create a production version of your app:
+#### Some Extra Info:
+* Purpose: Year 2 Semester 2 `INFO 2602` Final Project
+* Date Created: 19/04/2022 (dd/mm/yy)
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-> "# Chat-App"
+Profile             |  Questions
+:-------------------------:|:-------------------------:
+![image](https://user-images.githubusercontent.com/70588497/164083875-7605068b-8356-42ed-8af0-360dd8795dbc.png) | ![image](https://user-images.githubusercontent.com/70588497/164084999-4cee7df4-9875-421c-9a0b-f892daaaecce.png)
