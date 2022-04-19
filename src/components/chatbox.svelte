@@ -68,7 +68,7 @@
 	const handleSubmit = () => {
 		let today = new Date();
 		let time = today.getHours() + ':' + today.getMinutes();
-		console.log(receiver);
+		// console.log(receiver);
 		//Emit send message to server if the message has content
 		if (message != '')
 			socket.emit('send-message', {

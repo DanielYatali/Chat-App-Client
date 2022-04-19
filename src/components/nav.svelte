@@ -65,12 +65,13 @@
 				<div class="flex-shrink-0 flex items-center">
 					<img
 						on:click={() => goto('/')}
-						class="block lg:hidden h-8 w-auto"
+						class="cursor-pointer block lg:hidden h-8 w-auto"
 						src="https://i.ibb.co/hdDwHkK/unknown-removebg-preview.png"
 						alt="Workflow"
 					/>
 					<img
-						class="hidden lg:block h-8 w-auto"
+						on:click={() => goto('/')}
+						class="hidden lg:block h-8 w-auto cursor-pointer"
 						src="https://i.ibb.co/hdDwHkK/unknown-removebg-preview.png"
 						alt="Workflow"
 					/>
@@ -78,14 +79,14 @@
 				<div class="hidden sm:block sm:ml-6">
 					<div class="flex space-x-4">
 						<a
-							href="/"
+							href="/dashboard"
 							class="cream-msg text-white px-3 py-2 rounded-md text-sm font-medium"
-							aria-current="page">Home</a
+							aria-current="page">Dashboard</a
 						>
 						<a
-							href="/dashboard"
+							href="/chat"
 							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-							aria-current="page">Dashboard</a
+							aria-current="page">Chat</a
 						>
 
 						<a
@@ -94,9 +95,9 @@
 							>About</a
 						>
 						<a
-							href="/chat"
+							href="/contact"
 							class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-							>Chat</a
+							>Contact</a
 						>
 					</div>
 				</div>
@@ -189,14 +190,14 @@
 		<div class="px-2 pt-2 pb-3 space-y-1">
 			<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 			<a
-				href="/"
+				href="/dashboard"
 				class="cream-msg text-white block px-3 py-2 rounded-md text-base font-medium"
-				aria-current="page">Home</a
+				aria-current="page">Dashboard</a
 			>
 			<a
-				href="/dashboard"
+				href="/chat"
 				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-				>Dashboard</a
+				>Chat</a
 			>
 
 			<a
@@ -205,9 +206,9 @@
 				>About</a
 			>
 			<a
-				href="/chat"
+				href="/contact"
 				class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-				>Chat</a
+				>Contact</a
 			>
 		</div>
 	</div>

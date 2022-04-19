@@ -23,7 +23,6 @@
 <div class="sticky top-0 w-full z-40">
 	<Nav />
 </div>
-
 <div class="flex flex-no-wrap">
 	<div class="fixed z-30">
 		<DashboardSideBar />
@@ -32,6 +31,7 @@
 		style="min-height: 93vh;"
 		class="md:ml-64 xl:ml-80 container mx-auto py-2 sm:py-10 md:w-4/5 w-11/12 px-6 overflow--y-scroll "
 	>
+		<p class="w-full text-center">Unimplemented Feature</p>
 		<div class="">
 			<div class="sm:px-6 2xl:container">
 				<div class="grid gap-6 xl:grid-cols-3">
