@@ -35,7 +35,7 @@ npm run dev -- --open
 #### Note: This application will not be functional by itself as it requires its servers https://github.com/DanielYatali/Chat-App-Servers
 
 #### What We Learnt:
-* `Svelte`
+* `Svelte Kit`
 * `Flask, SqlAlchemy`
 * `Node.js`
 * `Socket.io`
