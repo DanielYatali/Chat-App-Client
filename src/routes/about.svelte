@@ -23,7 +23,7 @@
 			<div class="p-6">
 				<p>
 					<span class="text-gold text-lg"> myelinking </span>
-					was founded in <span class="text-gold text-lg">April 2020</span>, by five individuals
+					was founded in <span class="text-gold text-lg">April 2022</span>, by four individuals
 					seeking to create a platform to overcome the communication boundaries for
 					<span class="text-gold text-lg">online university students</span>.
 				</p>
